@@ -1,0 +1,2 @@
+C:\Users\tmbro\Documents\Avans\jaar 2\programmeren C#\tankgame\tankgame\tankgame\tankgameContent\obj\x86\Debug\tankgameContent.contentprojResolveAssemblyReference.cache
+C:\Users\tmbro\Documents\Avans\jaar 2\programmeren C#\tankgame\tankgame\tankgame\tankgameContent\obj\x86\Debug\tankgameContent.contentproj.CoreCompileInputs.cache
