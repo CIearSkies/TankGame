@@ -25,6 +25,21 @@
           <GenerateTimedEmit>true</GenerateTimedEmit>
           <ContainedObjects>
             <NamedObjectSave>
+              <CustomProperty>
+                <Type>float</Type>
+                <Member>TurningSpeed</Member>
+                <ValueAsFloat>2</ValueAsFloat>
+              </CustomProperty>
+              <CustomProperty>
+                <Type>float</Type>
+                <Member>MovementSpeed</Member>
+                <ValueAsFloat>350</ValueAsFloat>
+              </CustomProperty>
+              <CustomProperty>
+                <Type>float</Type>
+                <Member>Drag</Member>
+                <ValueAsFloat>1</ValueAsFloat>
+              </CustomProperty>
               <SourceType>Entity</SourceType>
               <SourceClassType>Entities\Tank</SourceClassType>
               <InstanceName>Player1Tank</InstanceName>
@@ -143,7 +158,7 @@
           </Properties>
           <Name>MovementSpeed</Name>
           <Type>float</Type>
-          <DefaultValue xsi:type="xsd:float">100</DefaultValue>
+          <DefaultValue xsi:type="xsd:float">500</DefaultValue>
         </CustomVariable>
         <CustomVariable>
           <Properties>
@@ -154,7 +169,18 @@
           </Properties>
           <Name>TurningSpeed</Name>
           <Type>float</Type>
-          <DefaultValue xsi:type="xsd:float">3.14</DefaultValue>
+          <DefaultValue xsi:type="xsd:float">1</DefaultValue>
+        </CustomVariable>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>float</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>Drag</Name>
+          <Type>float</Type>
+          <DefaultValue xsi:type="xsd:float">3</DefaultValue>
         </CustomVariable>
       </CustomVariables>
       <ImplementsIDrawableBatch>false</ImplementsIDrawableBatch>
@@ -170,6 +196,16 @@
             <Type>float</Type>
             <Member>TextureScale</Member>
             <ValueAsFloat>0.5</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>bool</Type>
+            <Member>FlipHorizontal</Member>
+            <ValueAsBool>false</ValueAsBool>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>bool</Type>
+            <Member>FlipVertical</Member>
+            <ValueAsBool>true</ValueAsBool>
           </CustomProperty>
           <SourceType>FlatRedBallType</SourceType>
           <SourceFile />

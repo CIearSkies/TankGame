@@ -14,11 +14,7 @@ namespace tankgame.Entities
 {
 	public partial class Tank
 	{
-        /// <summary>
-        /// Initialization logic which is execute only one time for this Entity (unless the Entity is pooled).
-        /// This method is called when the Entity is added to managers. Entities which are instantiated but not
-        /// added to managers will not have this method called.
-        /// </summary>
+        
         Xbox360GamePad mGamePad;
         private void CustomInitialize()
 		{
@@ -46,14 +42,10 @@ namespace tankgame.Entities
 
 		private void CustomDestroy()
 		{
-
-
 		}
 
         private static void CustomLoadStaticContent(string contentManagerName)
         {
-
-
         }
 
         void MovementActivity()
@@ -61,13 +53,14 @@ namespace tankgame.Entities
             if(mGamePad.LeftStick.Position.Y == 1)
              this.Acceleration = -this.RotationMatrix.Up * this.MovementSpeed;
             else { this.Acceleration -= this.Acceleration; }
+
+            if (mGamePad.LeftStick.Position.Y == -1)
+                this.Acceleration = -this.RotationMatrix.Up * this.MovementSpeed;
+            else { this.Acceleration =- this.Acceleration; }
         }
 
         void TurningActivity()
         {
-            // We use a negative value because we want holding left to turn
-            // counterclockwise - but left is a negative value and turning counterclockwise 
-            // is a positive value
             this.RotationZVelocity = -mGamePad.LeftStick.Position.X * TurningSpeed;
         }
     }
