@@ -45,9 +45,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Entities\Tank\tanksprite.PNG">
+    <None Include="Entities\Tank\PZiv.PNG">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>tanksprite</Name>
+      <Name>PZiv</Name>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

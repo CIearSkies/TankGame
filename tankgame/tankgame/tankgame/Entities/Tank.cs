@@ -42,7 +42,6 @@ namespace tankgame.Entities
 		{
             MovementActivity();
             TurningActivity();
-
         }
 
 		private void CustomDestroy()
@@ -60,8 +59,8 @@ namespace tankgame.Entities
         void MovementActivity()
         {
             if(mGamePad.LeftStick.Position.Y == 1)
-             this.Velocity = -this.RotationMatrix.Up * this.MovementSpeed;
-            else { this.Velocity -= this.Velocity; }
+             this.Acceleration = -this.RotationMatrix.Up * this.MovementSpeed;
+            else { this.Acceleration -= this.Acceleration; }
         }
 
         void TurningActivity()

@@ -1,1 +1,1 @@
-Content\Entities\Tank\tanksprite.PNG
+Content\Entities\Tank\PZiv.PNG

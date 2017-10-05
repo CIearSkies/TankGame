@@ -10,3 +10,15 @@ C:\Users\tmbro\Documents\Avans\jaar 2\programmeren C#\tankgame\tankgame\tankgame
 C:\Users\tmbro\Documents\Avans\jaar 2\programmeren C#\tankgame\tankgame\tankgame\tankgame\obj\x86\Debug\tankgame.exe
 C:\Users\tmbro\Documents\Avans\jaar 2\programmeren C#\tankgame\tankgame\tankgame\tankgame\obj\x86\Debug\tankgame.pdb
 C:\Users\tmbro\Documents\Avans\jaar 2\programmeren C#\tankgame\tankgame\tankgame\tankgame\bin\x86\Debug\Content\Entities\Tank\tanksprite.PNG
+C:\Users\Trist\Documents\gitKraken\TankGame\TankGame\tankgame\tankgame\tankgame\bin\x86\Debug\redball.BMP
+C:\Users\Trist\Documents\gitKraken\TankGame\TankGame\tankgame\tankgame\tankgame\bin\x86\Debug\tankgame.exe.config
+C:\Users\Trist\Documents\gitKraken\TankGame\TankGame\tankgame\tankgame\tankgame\bin\x86\Debug\tankgame.exe
+C:\Users\Trist\Documents\gitKraken\TankGame\TankGame\tankgame\tankgame\tankgame\bin\x86\Debug\tankgame.pdb
+C:\Users\Trist\Documents\gitKraken\TankGame\TankGame\tankgame\tankgame\tankgame\bin\x86\Debug\FlatRedBall.dll
+C:\Users\Trist\Documents\gitKraken\TankGame\TankGame\tankgame\tankgame\tankgame\bin\x86\Debug\FlatRedBall.xml
+C:\Users\Trist\Documents\gitKraken\TankGame\TankGame\tankgame\tankgame\tankgame\obj\x86\Debug\tankgame.csprojResolveAssemblyReference.cache
+C:\Users\Trist\Documents\gitKraken\TankGame\TankGame\tankgame\tankgame\tankgame\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\Trist\Documents\gitKraken\TankGame\TankGame\tankgame\tankgame\tankgame\obj\x86\Debug\tankgame.csproj.CoreCompileInputs.cache
+C:\Users\Trist\Documents\gitKraken\TankGame\TankGame\tankgame\tankgame\tankgame\obj\x86\Debug\tankgame.exe
+C:\Users\Trist\Documents\gitKraken\TankGame\TankGame\tankgame\tankgame\tankgame\obj\x86\Debug\tankgame.pdb
+C:\Users\Trist\Documents\gitKraken\TankGame\TankGame\tankgame\tankgame\tankgame\bin\x86\Debug\Content\Entities\Tank\PZiv.PNG

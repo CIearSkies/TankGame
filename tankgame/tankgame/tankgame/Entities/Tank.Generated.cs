@@ -23,7 +23,7 @@ namespace tankgame.Entities
         static object mLockObject = new object();
         static System.Collections.Generic.List<string> mRegisteredUnloads = new System.Collections.Generic.List<string>();
         static System.Collections.Generic.List<string> LoadedContentManagers = new System.Collections.Generic.List<string>();
-        protected static Microsoft.Xna.Framework.Graphics.Texture2D tanksprite;
+        protected static Microsoft.Xna.Framework.Graphics.Texture2D PZiv;
         
         private FlatRedBall.Sprite Sprite;
         public float MovementSpeed = 100f;
@@ -93,8 +93,8 @@ namespace tankgame.Entities
                 Sprite.CopyAbsoluteToRelative();
                 Sprite.AttachTo(this, false);
             }
-            Sprite.Texture = tanksprite;
-            Sprite.TextureScale = 1f;
+            Sprite.Texture = PZiv;
+            Sprite.TextureScale = 0.5f;
             FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue = oldShapeManagerSuppressAdd;
         }
         public virtual void AddToManagersBottomUp (FlatRedBall.Graphics.Layer layerToAddTo)
@@ -114,8 +114,8 @@ namespace tankgame.Entities
             if (callOnContainedElements)
             {
             }
-            Sprite.Texture = tanksprite;
-            Sprite.TextureScale = 1f;
+            Sprite.Texture = PZiv;
+            Sprite.TextureScale = 0.5f;
             MovementSpeed = 100f;
             TurningSpeed = 3.14f;
         }
@@ -154,11 +154,11 @@ namespace tankgame.Entities
                         mRegisteredUnloads.Add(ContentManagerName);
                     }
                 }
-                if (!FlatRedBall.FlatRedBallServices.IsLoaded<Microsoft.Xna.Framework.Graphics.Texture2D>(@"content/entities/tank/tanksprite.png", ContentManagerName))
+                if (!FlatRedBall.FlatRedBallServices.IsLoaded<Microsoft.Xna.Framework.Graphics.Texture2D>(@"content/entities/tank/pziv.png", ContentManagerName))
                 {
                     registerUnload = true;
                 }
-                tanksprite = FlatRedBall.FlatRedBallServices.Load<Microsoft.Xna.Framework.Graphics.Texture2D>(@"content/entities/tank/tanksprite.png", ContentManagerName);
+                PZiv = FlatRedBall.FlatRedBallServices.Load<Microsoft.Xna.Framework.Graphics.Texture2D>(@"content/entities/tank/pziv.png", ContentManagerName);
             }
             if (registerUnload && ContentManagerName != FlatRedBall.FlatRedBallServices.GlobalContentManager)
             {
@@ -182,9 +182,9 @@ namespace tankgame.Entities
             }
             if (LoadedContentManagers.Count == 0)
             {
-                if (tanksprite != null)
+                if (PZiv != null)
                 {
-                    tanksprite= null;
+                    PZiv= null;
                 }
             }
         }
@@ -193,8 +193,8 @@ namespace tankgame.Entities
         {
             switch(memberName)
             {
-                case  "tanksprite":
-                    return tanksprite;
+                case  "PZiv":
+                    return PZiv;
             }
             return null;
         }
@@ -202,8 +202,8 @@ namespace tankgame.Entities
         {
             switch(memberName)
             {
-                case  "tanksprite":
-                    return tanksprite;
+                case  "PZiv":
+                    return PZiv;
             }
             return null;
         }
@@ -211,8 +211,8 @@ namespace tankgame.Entities
         {
             switch(memberName)
             {
-                case  "tanksprite":
-                    return tanksprite;
+                case  "PZiv":
+                    return PZiv;
             }
             return null;
         }
