@@ -2,6 +2,7 @@
 #define REQUIRES_PRIMARY_THREAD_LOADING
 #endif
 using Color = Microsoft.Xna.Framework.Color;
+using tankgame.Entities;
 using FlatRedBall;
 using FlatRedBall.Screens;
 using System;
