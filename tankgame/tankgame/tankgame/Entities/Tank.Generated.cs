@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Text;
 namespace tankgame.Entities
 {
-    public partial class Player2Tank : FlatRedBall.PositionedObject, FlatRedBall.Graphics.IDestroyable
+    public partial class Tank : FlatRedBall.PositionedObject, FlatRedBall.Graphics.IDestroyable
     {
         // This is made static so that static lazy-loaded content can access it.
         public static string ContentManagerName { get; set; }
@@ -23,17 +23,21 @@ namespace tankgame.Entities
         static object mLockObject = new object();
         static System.Collections.Generic.List<string> mRegisteredUnloads = new System.Collections.Generic.List<string>();
         static System.Collections.Generic.List<string> LoadedContentManagers = new System.Collections.Generic.List<string>();
+        protected static Microsoft.Xna.Framework.Graphics.Texture2D tanksprite;
         
+        private FlatRedBall.Sprite Sprite;
+        public float MovementSpeed = 100f;
+        public float TurningSpeed = 3.14f;
         protected FlatRedBall.Graphics.Layer LayerProvidedByContainer = null;
-        public Player2Tank ()
+        public Tank ()
         	: this(FlatRedBall.Screens.ScreenManager.CurrentScreen.ContentManagerName, true)
         {
         }
-        public Player2Tank (string contentManagerName)
+        public Tank (string contentManagerName)
         	: this(contentManagerName, true)
         {
         }
-        public Player2Tank (string contentManagerName, bool addToManagers)
+        public Tank (string contentManagerName, bool addToManagers)
         	: base()
         {
             ContentManagerName = contentManagerName;
@@ -42,6 +46,8 @@ namespace tankgame.Entities
         protected virtual void InitializeEntity (bool addToManagers)
         {
             LoadStaticContent(ContentManagerName);
+            Sprite = new FlatRedBall.Sprite();
+            Sprite.Name = "Sprite";
             
             PostInitialize();
             if (addToManagers)
@@ -53,11 +59,13 @@ namespace tankgame.Entities
         {
             LayerProvidedByContainer = layerToAddTo;
             FlatRedBall.SpriteManager.AddPositionedObject(this);
+            FlatRedBall.SpriteManager.AddToLayer(Sprite, LayerProvidedByContainer);
         }
         public virtual void AddToManagers (FlatRedBall.Graphics.Layer layerToAddTo)
         {
             LayerProvidedByContainer = layerToAddTo;
             FlatRedBall.SpriteManager.AddPositionedObject(this);
+            FlatRedBall.SpriteManager.AddToLayer(Sprite, LayerProvidedByContainer);
             AddToManagersBottomUp(layerToAddTo);
             CustomInitialize();
         }
@@ -70,12 +78,23 @@ namespace tankgame.Entities
         {
             FlatRedBall.SpriteManager.RemovePositionedObject(this);
             
+            if (Sprite != null)
+            {
+                FlatRedBall.SpriteManager.RemoveSprite(Sprite);
+            }
             CustomDestroy();
         }
         public virtual void PostInitialize ()
         {
             bool oldShapeManagerSuppressAdd = FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue;
             FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue = true;
+            if (Sprite.Parent == null)
+            {
+                Sprite.CopyAbsoluteToRelative();
+                Sprite.AttachTo(this, false);
+            }
+            Sprite.Texture = tanksprite;
+            Sprite.TextureScale = 1f;
             FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue = oldShapeManagerSuppressAdd;
         }
         public virtual void AddToManagersBottomUp (FlatRedBall.Graphics.Layer layerToAddTo)
@@ -85,17 +104,26 @@ namespace tankgame.Entities
         public virtual void RemoveFromManagers ()
         {
             FlatRedBall.SpriteManager.ConvertToManuallyUpdated(this);
+            if (Sprite != null)
+            {
+                FlatRedBall.SpriteManager.RemoveSpriteOneWay(Sprite);
+            }
         }
         public virtual void AssignCustomVariables (bool callOnContainedElements)
         {
             if (callOnContainedElements)
             {
             }
+            Sprite.Texture = tanksprite;
+            Sprite.TextureScale = 1f;
+            MovementSpeed = 100f;
+            TurningSpeed = 3.14f;
         }
         public virtual void ConvertToManuallyUpdated ()
         {
             this.ForceUpdateDependenciesDeep();
             FlatRedBall.SpriteManager.ConvertToManuallyUpdated(this);
+            FlatRedBall.SpriteManager.ConvertToManuallyUpdated(Sprite);
         }
         public static void LoadStaticContent (string contentManagerName)
         {
@@ -122,10 +150,15 @@ namespace tankgame.Entities
                 {
                     if (!mRegisteredUnloads.Contains(ContentManagerName) && ContentManagerName != FlatRedBall.FlatRedBallServices.GlobalContentManager)
                     {
-                        FlatRedBall.FlatRedBallServices.GetContentManagerByName(ContentManagerName).AddUnloadMethod("Player2TankStaticUnload", UnloadStaticContent);
+                        FlatRedBall.FlatRedBallServices.GetContentManagerByName(ContentManagerName).AddUnloadMethod("TankStaticUnload", UnloadStaticContent);
                         mRegisteredUnloads.Add(ContentManagerName);
                     }
                 }
+                if (!FlatRedBall.FlatRedBallServices.IsLoaded<Microsoft.Xna.Framework.Graphics.Texture2D>(@"content/entities/tank/tanksprite.png", ContentManagerName))
+                {
+                    registerUnload = true;
+                }
+                tanksprite = FlatRedBall.FlatRedBallServices.Load<Microsoft.Xna.Framework.Graphics.Texture2D>(@"content/entities/tank/tanksprite.png", ContentManagerName);
             }
             if (registerUnload && ContentManagerName != FlatRedBall.FlatRedBallServices.GlobalContentManager)
             {
@@ -133,7 +166,7 @@ namespace tankgame.Entities
                 {
                     if (!mRegisteredUnloads.Contains(ContentManagerName) && ContentManagerName != FlatRedBall.FlatRedBallServices.GlobalContentManager)
                     {
-                        FlatRedBall.FlatRedBallServices.GetContentManagerByName(ContentManagerName).AddUnloadMethod("Player2TankStaticUnload", UnloadStaticContent);
+                        FlatRedBall.FlatRedBallServices.GetContentManagerByName(ContentManagerName).AddUnloadMethod("TankStaticUnload", UnloadStaticContent);
                         mRegisteredUnloads.Add(ContentManagerName);
                     }
                 }
@@ -149,19 +182,38 @@ namespace tankgame.Entities
             }
             if (LoadedContentManagers.Count == 0)
             {
+                if (tanksprite != null)
+                {
+                    tanksprite= null;
+                }
             }
         }
         [System.Obsolete("Use GetFile instead")]
         public static object GetStaticMember (string memberName)
         {
+            switch(memberName)
+            {
+                case  "tanksprite":
+                    return tanksprite;
+            }
             return null;
         }
         public static object GetFile (string memberName)
         {
+            switch(memberName)
+            {
+                case  "tanksprite":
+                    return tanksprite;
+            }
             return null;
         }
         object GetMember (string memberName)
         {
+            switch(memberName)
+            {
+                case  "tanksprite":
+                    return tanksprite;
+            }
             return null;
         }
         protected bool mIsPaused;
@@ -173,10 +225,16 @@ namespace tankgame.Entities
         public virtual void SetToIgnorePausing ()
         {
             FlatRedBall.Instructions.InstructionManager.IgnorePausingFor(this);
+            FlatRedBall.Instructions.InstructionManager.IgnorePausingFor(Sprite);
         }
         public virtual void MoveToLayer (FlatRedBall.Graphics.Layer layerToMoveTo)
         {
             var layerToRemoveFrom = LayerProvidedByContainer;
+            if (layerToRemoveFrom != null)
+            {
+                layerToRemoveFrom.Remove(Sprite);
+            }
+            FlatRedBall.SpriteManager.AddToLayer(Sprite, layerToMoveTo);
             LayerProvidedByContainer = layerToMoveTo;
         }
     }

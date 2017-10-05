@@ -9,3 +9,4 @@ C:\Users\tmbro\Documents\Avans\jaar 2\programmeren C#\tankgame\tankgame\tankgame
 C:\Users\tmbro\Documents\Avans\jaar 2\programmeren C#\tankgame\tankgame\tankgame\tankgame\obj\x86\Debug\tankgame.csproj.CoreCompileInputs.cache
 C:\Users\tmbro\Documents\Avans\jaar 2\programmeren C#\tankgame\tankgame\tankgame\tankgame\obj\x86\Debug\tankgame.exe
 C:\Users\tmbro\Documents\Avans\jaar 2\programmeren C#\tankgame\tankgame\tankgame\tankgame\obj\x86\Debug\tankgame.pdb
+C:\Users\tmbro\Documents\Avans\jaar 2\programmeren C#\tankgame\tankgame\tankgame\tankgame\bin\x86\Debug\Content\Entities\Tank\tanksprite.PNG

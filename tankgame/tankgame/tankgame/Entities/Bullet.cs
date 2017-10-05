@@ -11,7 +11,7 @@ using FlatRedBall.Math.Geometry;
 
 namespace tankgame.Entities
 {
-	public partial class Player1Tank
+	public partial class Bullet
 	{
         /// <summary>
         /// Initialization logic which is execute only one time for this Entity (unless the Entity is pooled).

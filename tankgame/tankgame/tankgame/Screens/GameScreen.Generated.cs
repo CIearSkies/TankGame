@@ -2,11 +2,13 @@
 #define REQUIRES_PRIMARY_THREAD_LOADING
 #endif
 using Color = Microsoft.Xna.Framework.Color;
+using tankgame.Entities;
 using FlatRedBall;
 using FlatRedBall.Screens;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using FlatRedBall.Math;
 namespace tankgame.Screens
 {
     public partial class GameScreen : FlatRedBall.Screens.Screen
@@ -15,6 +17,10 @@ namespace tankgame.Screens
         static bool HasBeenLoadedWithGlobalContentManager = false;
         #endif
         
+        private FlatRedBall.Math.PositionedObjectList<tankgame.Entities.Tank> TankList;
+        private tankgame.Entities.Tank Player1Tank;
+        private FlatRedBall.Math.PositionedObjectList<tankgame.Entities.Wall> WallList;
+        private FlatRedBall.Math.PositionedObjectList<tankgame.Entities.Bullet> BulletList;
         public GameScreen ()
         	: base ("GameScreen")
         {
@@ -22,6 +28,14 @@ namespace tankgame.Screens
         public override void Initialize (bool addToManagers)
         {
             LoadStaticContent(ContentManagerName);
+            TankList = new FlatRedBall.Math.PositionedObjectList<tankgame.Entities.Tank>();
+            TankList.Name = "TankList";
+            Player1Tank = new tankgame.Entities.Tank(ContentManagerName, false);
+            Player1Tank.Name = "Player1Tank";
+            WallList = new FlatRedBall.Math.PositionedObjectList<tankgame.Entities.Wall>();
+            WallList.Name = "WallList";
+            BulletList = new FlatRedBall.Math.PositionedObjectList<tankgame.Entities.Bullet>();
+            BulletList.Name = "BulletList";
             
             
             PostInitialize();
@@ -33,6 +47,7 @@ namespace tankgame.Screens
         }
         public override void AddToManagers ()
         {
+            Player1Tank.AddToManagers(mLayer);
             base.AddToManagers();
             AddToManagersBottomUp();
             CustomInitialize();
@@ -42,6 +57,30 @@ namespace tankgame.Screens
             if (!IsPaused)
             {
                 
+                for (int i = TankList.Count - 1; i > -1; i--)
+                {
+                    if (i < TankList.Count)
+                    {
+                        // We do the extra if-check because activity could destroy any number of entities
+                        TankList[i].Activity();
+                    }
+                }
+                for (int i = WallList.Count - 1; i > -1; i--)
+                {
+                    if (i < WallList.Count)
+                    {
+                        // We do the extra if-check because activity could destroy any number of entities
+                        WallList[i].Activity();
+                    }
+                }
+                for (int i = BulletList.Count - 1; i > -1; i--)
+                {
+                    if (i < BulletList.Count)
+                    {
+                        // We do the extra if-check because activity could destroy any number of entities
+                        BulletList[i].Activity();
+                    }
+                }
             }
             else
             {
@@ -56,12 +95,31 @@ namespace tankgame.Screens
         {
             base.Destroy();
             
+            TankList.MakeOneWay();
+            WallList.MakeOneWay();
+            BulletList.MakeOneWay();
+            for (int i = TankList.Count - 1; i > -1; i--)
+            {
+                TankList[i].Destroy();
+            }
+            for (int i = WallList.Count - 1; i > -1; i--)
+            {
+                WallList[i].Destroy();
+            }
+            for (int i = BulletList.Count - 1; i > -1; i--)
+            {
+                BulletList[i].Destroy();
+            }
+            TankList.MakeTwoWay();
+            WallList.MakeTwoWay();
+            BulletList.MakeTwoWay();
             CustomDestroy();
         }
         public virtual void PostInitialize ()
         {
             bool oldShapeManagerSuppressAdd = FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue;
             FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue = true;
+            TankList.Add(Player1Tank);
             FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue = oldShapeManagerSuppressAdd;
         }
         public virtual void AddToManagersBottomUp ()
@@ -71,15 +129,40 @@ namespace tankgame.Screens
         }
         public virtual void RemoveFromManagers ()
         {
+            for (int i = TankList.Count - 1; i > -1; i--)
+            {
+                TankList[i].Destroy();
+            }
+            for (int i = WallList.Count - 1; i > -1; i--)
+            {
+                WallList[i].Destroy();
+            }
+            for (int i = BulletList.Count - 1; i > -1; i--)
+            {
+                BulletList[i].Destroy();
+            }
         }
         public virtual void AssignCustomVariables (bool callOnContainedElements)
         {
             if (callOnContainedElements)
             {
+                Player1Tank.AssignCustomVariables(true);
             }
         }
         public virtual void ConvertToManuallyUpdated ()
         {
+            for (int i = 0; i < TankList.Count; i++)
+            {
+                TankList[i].ConvertToManuallyUpdated();
+            }
+            for (int i = 0; i < WallList.Count; i++)
+            {
+                WallList[i].ConvertToManuallyUpdated();
+            }
+            for (int i = 0; i < BulletList.Count; i++)
+            {
+                BulletList[i].ConvertToManuallyUpdated();
+            }
         }
         public static void LoadStaticContent (string contentManagerName)
         {
