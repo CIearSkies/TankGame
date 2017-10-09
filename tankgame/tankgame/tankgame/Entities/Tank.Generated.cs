@@ -26,8 +26,8 @@ namespace tankgame.Entities
         protected static Microsoft.Xna.Framework.Graphics.Texture2D PZiv;
         
         private FlatRedBall.Sprite Sprite;
-        public float MovementSpeed = 500f;
-        public float TurningSpeed = 1f;
+        public float TurningSpeed = 0.1f;
+        public int MovementSpeed = 100;
         protected FlatRedBall.Graphics.Layer LayerProvidedByContainer = null;
         public Tank ()
         	: this(FlatRedBall.Screens.ScreenManager.CurrentScreen.ContentManagerName, true)
@@ -96,7 +96,7 @@ namespace tankgame.Entities
             Sprite.Texture = PZiv;
             Sprite.FlipHorizontal = false;
             Sprite.FlipVertical = true;
-            Sprite.TextureScale = 0.5f;
+            Sprite.TextureScale = 0.3f;
             FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue = oldShapeManagerSuppressAdd;
         }
         public virtual void AddToManagersBottomUp (FlatRedBall.Graphics.Layer layerToAddTo)
@@ -119,10 +119,10 @@ namespace tankgame.Entities
             Sprite.Texture = PZiv;
             Sprite.FlipHorizontal = false;
             Sprite.FlipVertical = true;
-            Sprite.TextureScale = 0.5f;
-            MovementSpeed = 500f;
-            TurningSpeed = 1f;
-            Drag = 3f;
+            Sprite.TextureScale = 0.3f;
+            TurningSpeed = 0.1f;
+            Drag = 1f;
+            MovementSpeed = 100;
         }
         public virtual void ConvertToManuallyUpdated ()
         {

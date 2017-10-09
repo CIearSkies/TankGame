@@ -121,7 +121,6 @@ namespace tankgame.Screens
             FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue = true;
             TankList.Add(Player1Tank);
             Player1Tank.TurningSpeed = 2f;
-            Player1Tank.MovementSpeed = 350f;
             Player1Tank.Drag = 1f;
             FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue = oldShapeManagerSuppressAdd;
         }
@@ -152,7 +151,6 @@ namespace tankgame.Screens
                 Player1Tank.AssignCustomVariables(true);
             }
             Player1Tank.TurningSpeed = 2f;
-            Player1Tank.MovementSpeed = 350f;
             Player1Tank.Drag = 1f;
         }
         public virtual void ConvertToManuallyUpdated ()

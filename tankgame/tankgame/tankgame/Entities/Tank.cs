@@ -3,11 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using FlatRedBall;
 using FlatRedBall.Input;
-using FlatRedBall.Instructions;
-using FlatRedBall.AI.Pathfinding;
-using FlatRedBall.Graphics.Animation;
-using FlatRedBall.Graphics.Particle;
-using FlatRedBall.Math.Geometry;
 using Microsoft.Xna.Framework.Input;
 
 namespace tankgame.Entities
@@ -51,17 +46,17 @@ namespace tankgame.Entities
         void MovementActivity()
         {
             if(mGamePad.LeftStick.Position.Y == 1)
-             this.Acceleration = -this.RotationMatrix.Up * this.MovementSpeed;
+             this.Acceleration = -this.RotationMatrix.Up * MovementSpeed;
             else { this.Acceleration -= this.Acceleration; }
 
             if (mGamePad.LeftStick.Position.Y == -1)
-                this.Acceleration = -this.RotationMatrix.Up * this.MovementSpeed;
+                this.Acceleration = -this.RotationMatrix.Up * MovementSpeed;
             else { this.Acceleration =- this.Acceleration; }
         }
 
         void TurningActivity()
         {
-            this.RotationZVelocity = -mGamePad.LeftStick.Position.X * TurningSpeed;
+            this.RotationZVelocity = -mGamePad.LeftStick.Position.X * 0.7f;
         }
     }
 }
