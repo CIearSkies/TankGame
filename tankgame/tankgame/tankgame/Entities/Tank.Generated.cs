@@ -26,8 +26,8 @@ namespace tankgame.Entities
         protected static Microsoft.Xna.Framework.Graphics.Texture2D PZiv;
         
         private FlatRedBall.Sprite Sprite;
-        public float TurningSpeed = 0.1f;
-        public int MovementSpeed = 100;
+        public float MovementSpeed = 150f;
+        public float TurningSpeed;
         protected FlatRedBall.Graphics.Layer LayerProvidedByContainer = null;
         public Tank ()
         	: this(FlatRedBall.Screens.ScreenManager.CurrentScreen.ContentManagerName, true)
@@ -120,9 +120,8 @@ namespace tankgame.Entities
             Sprite.FlipHorizontal = false;
             Sprite.FlipVertical = true;
             Sprite.TextureScale = 0.3f;
-            TurningSpeed = 0.1f;
             Drag = 1f;
-            MovementSpeed = 100;
+            MovementSpeed = 150f;
         }
         public virtual void ConvertToManuallyUpdated ()
         {

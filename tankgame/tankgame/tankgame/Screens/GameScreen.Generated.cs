@@ -120,7 +120,6 @@ namespace tankgame.Screens
             bool oldShapeManagerSuppressAdd = FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue;
             FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue = true;
             TankList.Add(Player1Tank);
-            Player1Tank.TurningSpeed = 2f;
             Player1Tank.Drag = 1f;
             FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue = oldShapeManagerSuppressAdd;
         }
@@ -150,7 +149,6 @@ namespace tankgame.Screens
             {
                 Player1Tank.AssignCustomVariables(true);
             }
-            Player1Tank.TurningSpeed = 2f;
             Player1Tank.Drag = 1f;
         }
         public virtual void ConvertToManuallyUpdated ()
