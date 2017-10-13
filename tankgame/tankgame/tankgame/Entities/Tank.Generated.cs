@@ -11,6 +11,7 @@ using FlatRedBall.Screens;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using FlatRedBall.Math.Geometry;
 namespace tankgame.Entities
 {
     public partial class Tank : FlatRedBall.PositionedObject, FlatRedBall.Graphics.IDestroyable, FlatRedBall.Math.Geometry.ICollidable
@@ -26,6 +27,18 @@ namespace tankgame.Entities
         protected static Microsoft.Xna.Framework.Graphics.Texture2D PZiv;
         
         private FlatRedBall.Sprite Sprite;
+        private FlatRedBall.Math.Geometry.AxisAlignedRectangle mHitBox;
+        public FlatRedBall.Math.Geometry.AxisAlignedRectangle HitBox
+        {
+            get
+            {
+                return mHitBox;
+            }
+            private set
+            {
+                mHitBox = value;
+            }
+        }
         public float MovementSpeed = 150f;
         public float TurningSpeed;
         private FlatRedBall.Math.Geometry.ShapeCollection mGeneratedCollision;
@@ -56,6 +69,8 @@ namespace tankgame.Entities
             LoadStaticContent(ContentManagerName);
             Sprite = new FlatRedBall.Sprite();
             Sprite.Name = "Sprite";
+            mHitBox = new FlatRedBall.Math.Geometry.AxisAlignedRectangle();
+            mHitBox.Name = "mHitBox";
             
             PostInitialize();
             if (addToManagers)
@@ -68,12 +83,14 @@ namespace tankgame.Entities
             LayerProvidedByContainer = layerToAddTo;
             FlatRedBall.SpriteManager.AddPositionedObject(this);
             FlatRedBall.SpriteManager.AddToLayer(Sprite, LayerProvidedByContainer);
+            FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(mHitBox, LayerProvidedByContainer);
         }
         public virtual void AddToManagers (FlatRedBall.Graphics.Layer layerToAddTo)
         {
             LayerProvidedByContainer = layerToAddTo;
             FlatRedBall.SpriteManager.AddPositionedObject(this);
             FlatRedBall.SpriteManager.AddToLayer(Sprite, LayerProvidedByContainer);
+            FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(mHitBox, LayerProvidedByContainer);
             AddToManagersBottomUp(layerToAddTo);
             CustomInitialize();
         }
@@ -89,6 +106,10 @@ namespace tankgame.Entities
             if (Sprite != null)
             {
                 FlatRedBall.SpriteManager.RemoveSprite(Sprite);
+            }
+            if (HitBox != null)
+            {
+                FlatRedBall.Math.Geometry.ShapeManager.Remove(HitBox);
             }
             mGeneratedCollision.RemoveFromManagers(clearThis: false);
             CustomDestroy();
@@ -106,7 +127,15 @@ namespace tankgame.Entities
             Sprite.FlipHorizontal = false;
             Sprite.FlipVertical = true;
             Sprite.TextureScale = 0.3f;
+            if (mHitBox.Parent == null)
+            {
+                mHitBox.CopyAbsoluteToRelative();
+                mHitBox.AttachTo(this, false);
+            }
+            HitBox.Width = 39f;
+            HitBox.Height = 39f;
             mGeneratedCollision = new FlatRedBall.Math.Geometry.ShapeCollection();
+            mGeneratedCollision.AxisAlignedRectangles.AddOneWay(mHitBox);
             FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue = oldShapeManagerSuppressAdd;
         }
         public virtual void AddToManagersBottomUp (FlatRedBall.Graphics.Layer layerToAddTo)
@@ -120,6 +149,10 @@ namespace tankgame.Entities
             {
                 FlatRedBall.SpriteManager.RemoveSpriteOneWay(Sprite);
             }
+            if (HitBox != null)
+            {
+                FlatRedBall.Math.Geometry.ShapeManager.RemoveOneWay(HitBox);
+            }
             mGeneratedCollision.RemoveFromManagers(clearThis: false);
         }
         public virtual void AssignCustomVariables (bool callOnContainedElements)
@@ -131,6 +164,8 @@ namespace tankgame.Entities
             Sprite.FlipHorizontal = false;
             Sprite.FlipVertical = true;
             Sprite.TextureScale = 0.3f;
+            HitBox.Width = 39f;
+            HitBox.Height = 39f;
             Drag = 1f;
             MovementSpeed = 150f;
         }
@@ -241,6 +276,7 @@ namespace tankgame.Entities
         {
             FlatRedBall.Instructions.InstructionManager.IgnorePausingFor(this);
             FlatRedBall.Instructions.InstructionManager.IgnorePausingFor(Sprite);
+            FlatRedBall.Instructions.InstructionManager.IgnorePausingFor(HitBox);
         }
         public virtual void MoveToLayer (FlatRedBall.Graphics.Layer layerToMoveTo)
         {
@@ -250,6 +286,11 @@ namespace tankgame.Entities
                 layerToRemoveFrom.Remove(Sprite);
             }
             FlatRedBall.SpriteManager.AddToLayer(Sprite, layerToMoveTo);
+            if (layerToRemoveFrom != null)
+            {
+                layerToRemoveFrom.Remove(HitBox);
+            }
+            FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(HitBox, layerToMoveTo);
             LayerProvidedByContainer = layerToMoveTo;
         }
     }

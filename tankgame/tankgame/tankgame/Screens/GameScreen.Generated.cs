@@ -128,19 +128,19 @@ namespace tankgame.Screens
             TankList.Add(Player1Tank);
             if (Player1Tank.Parent == null)
             {
-                Player1Tank.X = 100f;
+                Player1Tank.X = 400f;
             }
             else
             {
-                Player1Tank.RelativeX = 100f;
+                Player1Tank.RelativeX = 400f;
             }
             if (Player1Tank.Parent == null)
             {
-                Player1Tank.Y = -100f;
+                Player1Tank.Y = -400f;
             }
             else
             {
-                Player1Tank.RelativeY = -100f;
+                Player1Tank.RelativeY = -400f;
             }
             if (Player1Tank.Parent == null)
             {
@@ -183,19 +183,19 @@ namespace tankgame.Screens
             }
             if (Player1Tank.Parent == null)
             {
-                Player1Tank.X = 100f;
+                Player1Tank.X = 400f;
             }
             else
             {
-                Player1Tank.RelativeX = 100f;
+                Player1Tank.RelativeX = 400f;
             }
             if (Player1Tank.Parent == null)
             {
-                Player1Tank.Y = -100f;
+                Player1Tank.Y = -400f;
             }
             else
             {
-                Player1Tank.RelativeY = -100f;
+                Player1Tank.RelativeY = -400f;
             }
             if (Player1Tank.Parent == null)
             {
