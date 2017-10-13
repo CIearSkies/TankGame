@@ -21,7 +21,7 @@ namespace tankgame.Entities
 		private void CustomInitialize()
 		{
 
-
+            
 		}
 
 		private void CustomActivity()

@@ -15,6 +15,8 @@ namespace Server
     class Server
     {
         Stream stream;
+        bool player1exists = false;
+        bool allowed = true;
         static void Main(string[] args)
         {
             new Server();
@@ -78,6 +80,7 @@ namespace Server
             int i;
             Byte[] bytes = new Byte[256];
             string data = null;
+            byte[] msg;
             // Process the data sent by the client.
             while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
             {
@@ -85,12 +88,26 @@ namespace Server
                 Console.WriteLine("Received: {0}", data);
 
                 //SaveData(JsonConvert.SerializeObject(data));
+                if (!player1exists && allowed)
+                {
+                    msg = System.Text.Encoding.ASCII.GetBytes("player1");
+                    stream.Write(msg, 0, msg.Length);
+                    Console.WriteLine("Sent: {0}", "player1");
+                    player1exists = true;
+                } else if(player1exists && allowed)
+                {
+                    msg = System.Text.Encoding.ASCII.GetBytes("player2");
+                    stream.Write(msg, 0, msg.Length);
+                    Console.WriteLine("Sent: {0}", "player2");
+                    allowed = false;
+                } else
+                {
+                    Console.WriteLine("NORMIES GET OUT REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+                }
 
-                byte[] msg = System.Text.Encoding.ASCII.GetBytes($"Received: {data}");
 
                 // Send back a response.
-                stream.Write(msg, 0, msg.Length);
-                Console.WriteLine("Sent: {0}", "Acknowledged");
+                
             }
             // Shutdown and end connection
 
