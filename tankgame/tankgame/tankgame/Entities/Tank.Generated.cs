@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Text;
 namespace tankgame.Entities
 {
-    public partial class Tank : FlatRedBall.PositionedObject, FlatRedBall.Graphics.IDestroyable
+    public partial class Tank : FlatRedBall.PositionedObject, FlatRedBall.Graphics.IDestroyable, FlatRedBall.Math.Geometry.ICollidable
     {
         // This is made static so that static lazy-loaded content can access it.
         public static string ContentManagerName { get; set; }
@@ -28,6 +28,14 @@ namespace tankgame.Entities
         private FlatRedBall.Sprite Sprite;
         public float MovementSpeed = 150f;
         public float TurningSpeed;
+        private FlatRedBall.Math.Geometry.ShapeCollection mGeneratedCollision;
+        public FlatRedBall.Math.Geometry.ShapeCollection Collision
+        {
+            get
+            {
+                return mGeneratedCollision;
+            }
+        }
         protected FlatRedBall.Graphics.Layer LayerProvidedByContainer = null;
         public Tank ()
         	: this(FlatRedBall.Screens.ScreenManager.CurrentScreen.ContentManagerName, true)
@@ -82,6 +90,7 @@ namespace tankgame.Entities
             {
                 FlatRedBall.SpriteManager.RemoveSprite(Sprite);
             }
+            mGeneratedCollision.RemoveFromManagers(clearThis: false);
             CustomDestroy();
         }
         public virtual void PostInitialize ()
@@ -97,6 +106,7 @@ namespace tankgame.Entities
             Sprite.FlipHorizontal = false;
             Sprite.FlipVertical = true;
             Sprite.TextureScale = 0.3f;
+            mGeneratedCollision = new FlatRedBall.Math.Geometry.ShapeCollection();
             FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue = oldShapeManagerSuppressAdd;
         }
         public virtual void AddToManagersBottomUp (FlatRedBall.Graphics.Layer layerToAddTo)
@@ -110,6 +120,7 @@ namespace tankgame.Entities
             {
                 FlatRedBall.SpriteManager.RemoveSpriteOneWay(Sprite);
             }
+            mGeneratedCollision.RemoveFromManagers(clearThis: false);
         }
         public virtual void AssignCustomVariables (bool callOnContainedElements)
         {

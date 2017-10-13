@@ -41,21 +41,6 @@
             <NamedObjectSave>
               <CustomProperty>
                 <Type>float</Type>
-                <Member>Drag</Member>
-                <ValueAsFloat>1</ValueAsFloat>
-              </CustomProperty>
-              <CustomProperty>
-                <Type>float</Type>
-                <Member>MovementSpeed</Member>
-                <ValueAsFloat>350</ValueAsFloat>
-              </CustomProperty>
-              <CustomProperty>
-                <Type>float</Type>
-                <Member>TurningSpeed</Member>
-                <ValueAsFloat>2</ValueAsFloat>
-              </CustomProperty>
-              <CustomProperty>
-                <Type>float</Type>
                 <Member>X</Member>
                 <ValueAsFloat>100</ValueAsFloat>
               </CustomProperty>
@@ -68,6 +53,21 @@
                 <Type>float</Type>
                 <Member>Z</Member>
                 <ValueAsFloat>10</ValueAsFloat>
+              </CustomProperty>
+              <CustomProperty>
+                <Type>float</Type>
+                <Member>Drag</Member>
+                <ValueAsFloat>1</ValueAsFloat>
+              </CustomProperty>
+              <CustomProperty>
+                <Type>float</Type>
+                <Member>MovementSpeed</Member>
+                <ValueAsFloat>350</ValueAsFloat>
+              </CustomProperty>
+              <CustomProperty>
+                <Type>float</Type>
+                <Member>TurningSpeed</Member>
+                <ValueAsFloat>2</ValueAsFloat>
               </CustomProperty>
               <SourceType>Entity</SourceType>
               <SourceClassType>Entities\Tank</SourceClassType>
@@ -143,6 +143,12 @@
       <Is2D>true</Is2D>
     </EntitySave>
     <EntitySave>
+      <Properties>
+        <PropertySave>
+          <Name>ImplementsICollidable</Name>
+          <ValueAsBool>true</ValueAsBool>
+        </PropertySave>
+      </Properties>
       <Tags>
         <string>GLUE</string>
       </Tags>
@@ -339,7 +345,13 @@
   <ApplyToFixedResolutionPlatforms>true</ApplyToFixedResolutionPlatforms>
   <ExternallyBuiltFileDirectory>../../</ExternallyBuiltFileDirectory>
   <PluginData>
-    <RequiredPlugins />
+    <RequiredPlugins>
+      <PluginRequirement>
+        <Name>Tiled Plugin</Name>
+        <Version>1.1.1.7</Version>
+        <VersionRequirement>EqualToOrNewerThan</VersionRequirement>
+      </PluginRequirement>
+    </RequiredPlugins>
   </PluginData>
   <DisplaySettings>
     <Is2D>true</Is2D>
