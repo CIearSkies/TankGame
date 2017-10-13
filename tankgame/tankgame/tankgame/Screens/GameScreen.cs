@@ -21,9 +21,9 @@ namespace tankgame.Screens
 
 		void CustomInitialize()
 		{
-
-
-		}
+            Camera.Main.X = Camera.Main.OrthogonalWidth / 2.0f;
+            Camera.Main.Y = -1 * Camera.Main.OrthogonalHeight / 2.0f;
+        }
 
 		void CustomActivity(bool firstTimeCalled)
 		{

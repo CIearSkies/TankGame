@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="59" height="33" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="forest_tiles" tilewidth="32" tileheight="32" tilecount="256" columns="16">
+  <image source="../../../../../../../../../Downloads/LPC_forest/LPC_forest/forest_tiles.png" width="512" height="512"/>
+ </tileset>
+ <layer name="Tilelaag 1" width="59" height="33">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3SuQ2AMAxAUTN2FkDKAkjQswTT4TpKnBjMUfziNZFt+UgSkfSAXc0fykG5rTq1mDK29V7GZCPX6mN0Rs8uvLPf3ffInFF37N2hdpeInqz79mp7eo76B4daf2B5waYmAAAAAAAAAAAAXHICEdfrzGweAAA=
+  </data>
+ </layer>
+ <objectgroup name="Objectlaag 1" visible="0"/>
+ <layer name="Tilelaag 2" width="59" height="33">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+2YXUpDMRCF4wJE2tInlSLok/pUKv7gJtyB7kBBXYGKLkCXoGtwdWbwDkyn85ebWBV64BBba+79PJNJelNa6T9ru9EcLeapuf6yr/ebvCv9LW0yH2QfkrGFptmX2VfKaP3OGku1z4zMG/2wVF1n3yij9TtrLBUw0VyReRL8++Psk+Bn++ZXmycKmGiuP6m++dXmyTXqTLXWWdK4YO4dYpivdZ5ebY0MozTWMXFEnHXZeVqcuHaRFV+jxqmMdyct8tJ8aXbTJPftGkmcvD/x16haVhDNl2YHnBfJz/QoRKlLY+S5gkp5QXudubT1qfWKqIbpe5+R9s9oriCN1TqDaKw/1W+BdZLk/VNj3EptepQmnue0cj7QsDPcu9SnsWdwZol11o0Wp1Y/XJE8T7PPAnOBhmme1ZJVuyXS6oer1fpEUVZPNNfa6/Ncpf6JebbYX0BRThDNtVYluUo1PFv8eFN5tXubfSf4vuf1eK6t8m2hh+xnwU895+O5SvkOiGtV8n2Vsj4mm3W3syVvvQ4Ee7JqP/p9FQSsyPhIfrZYJWZesxpzH1ZvHXh7EQpZqYH1Iy2uWYuV16zWo0o4rT7XRxqrtWYpq3b+1XqUxiidR1vsX3vEtIbX0zxzpD9p599Ij/LkrYekvIeCfZmzAiNfrxIrPYt6zx20XEvOx956SMp7lJXuqe+M0+tP/BqluUbqMdrntD0ccwRWvs9IfRhZeY+LPk/C+ztP888mIsze/81aH/x7BbJqnJ/Zr9lvAmv0eRJ/DuPdN2X3ci05m3FWMO1LL8I8paN2P142U+G9klwjrLR2X4R5ouMXx5EZcmweAAA=
+  </data>
+ </layer>
+</map>

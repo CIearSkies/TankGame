@@ -15,6 +15,20 @@
       </Tags>
       <Source>GLUE</Source>
       <Name>Screens\GameScreen</Name>
+      <ReferencedFiles>
+        <ReferencedFileSave>
+          <Name>Screens/GameScreen/forest_tiles.png</Name>
+          <IsSharedStatic>true</IsSharedStatic>
+          <RuntimeType>Microsoft.Xna.Framework.Graphics.Texture2D</RuntimeType>
+          <ProjectsToExcludeFrom />
+        </ReferencedFileSave>
+        <ReferencedFileSave>
+          <Name>Screens/GameScreen/woods.tmx</Name>
+          <IsSharedStatic>true</IsSharedStatic>
+          <RuntimeType>FlatRedBall.TileGraphics.LayeredTileMap</RuntimeType>
+          <ProjectsToExcludeFrom />
+        </ReferencedFileSave>
+      </ReferencedFiles>
       <NamedObjects>
         <NamedObjectSave>
           <SourceType>FlatRedBallType</SourceType>
@@ -39,6 +53,21 @@
                 <Type>float</Type>
                 <Member>TurningSpeed</Member>
                 <ValueAsFloat>2</ValueAsFloat>
+              </CustomProperty>
+              <CustomProperty>
+                <Type>float</Type>
+                <Member>X</Member>
+                <ValueAsFloat>100</ValueAsFloat>
+              </CustomProperty>
+              <CustomProperty>
+                <Type>float</Type>
+                <Member>Y</Member>
+                <ValueAsFloat>-100</ValueAsFloat>
+              </CustomProperty>
+              <CustomProperty>
+                <Type>float</Type>
+                <Member>Z</Member>
+                <ValueAsFloat>10</ValueAsFloat>
               </CustomProperty>
               <SourceType>Entity</SourceType>
               <SourceClassType>Entities\Tank</SourceClassType>
@@ -281,7 +310,31 @@
     <RecordInitializeSegments>false</RecordInitializeSegments>
   </PerformanceSettingsSave>
   <IgnoredDirectories />
-  <CustomClasses />
+  <CustomClasses>
+    <CustomClassSave>
+      <CsvFilesUsingThis />
+      <RequiredProperties>
+        <InstructionSave>
+          <Type>bool</Type>
+          <Member>HasCollision</Member>
+        </InstructionSave>
+        <InstructionSave>
+          <Type>string</Type>
+          <Member>EntityToCreate</Member>
+        </InstructionSave>
+        <InstructionSave>
+          <Type>string</Type>
+          <Member>Name</Member>
+        </InstructionSave>
+        <InstructionSave>
+          <Type>System.Collections.Generic.List&lt;FlatRedBall.Content.AnimationChain.AnimationFrameSaveBase&gt;</Type>
+          <Member>EmbeddedAnimation</Member>
+        </InstructionSave>
+      </RequiredProperties>
+      <Name>TileMapInfo</Name>
+      <GenerateCode>true</GenerateCode>
+    </CustomClassSave>
+  </CustomClasses>
   <TranslatedFiles />
   <ApplyToFixedResolutionPlatforms>true</ApplyToFixedResolutionPlatforms>
   <ExternallyBuiltFileDirectory>../../</ExternallyBuiltFileDirectory>

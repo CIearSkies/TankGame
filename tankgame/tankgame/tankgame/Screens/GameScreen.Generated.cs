@@ -16,6 +16,8 @@ namespace tankgame.Screens
         #if DEBUG
         static bool HasBeenLoadedWithGlobalContentManager = false;
         #endif
+        protected static Microsoft.Xna.Framework.Graphics.Texture2D forest_tiles;
+        protected static FlatRedBall.TileGraphics.LayeredTileMap woods;
         
         private FlatRedBall.Math.PositionedObjectList<tankgame.Entities.Tank> TankList;
         private tankgame.Entities.Tank Player1Tank;
@@ -47,6 +49,7 @@ namespace tankgame.Screens
         }
         public override void AddToManagers ()
         {
+            woods.AddToManagers(mLayer);
             Player1Tank.AddToManagers(mLayer);
             base.AddToManagers();
             AddToManagersBottomUp();
@@ -94,6 +97,9 @@ namespace tankgame.Screens
         public override void Destroy ()
         {
             base.Destroy();
+            forest_tiles = null;
+            woods.Destroy();
+            woods = null;
             
             TankList.MakeOneWay();
             WallList.MakeOneWay();
@@ -121,6 +127,32 @@ namespace tankgame.Screens
             FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue = true;
             TankList.Add(Player1Tank);
             Player1Tank.Drag = 1f;
+            Player1Tank.MovementSpeed = 350f;
+            Player1Tank.TurningSpeed = 2f;
+            if (Player1Tank.Parent == null)
+            {
+                Player1Tank.X = 100f;
+            }
+            else
+            {
+                Player1Tank.RelativeX = 100f;
+            }
+            if (Player1Tank.Parent == null)
+            {
+                Player1Tank.Y = -100f;
+            }
+            else
+            {
+                Player1Tank.RelativeY = -100f;
+            }
+            if (Player1Tank.Parent == null)
+            {
+                Player1Tank.Z = 10f;
+            }
+            else
+            {
+                Player1Tank.RelativeZ = 10f;
+            }
             FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue = oldShapeManagerSuppressAdd;
         }
         public virtual void AddToManagersBottomUp ()
@@ -150,6 +182,32 @@ namespace tankgame.Screens
                 Player1Tank.AssignCustomVariables(true);
             }
             Player1Tank.Drag = 1f;
+            Player1Tank.MovementSpeed = 350f;
+            Player1Tank.TurningSpeed = 2f;
+            if (Player1Tank.Parent == null)
+            {
+                Player1Tank.X = 100f;
+            }
+            else
+            {
+                Player1Tank.RelativeX = 100f;
+            }
+            if (Player1Tank.Parent == null)
+            {
+                Player1Tank.Y = -100f;
+            }
+            else
+            {
+                Player1Tank.RelativeY = -100f;
+            }
+            if (Player1Tank.Parent == null)
+            {
+                Player1Tank.Z = 10f;
+            }
+            else
+            {
+                Player1Tank.RelativeZ = 10f;
+            }
         }
         public virtual void ConvertToManuallyUpdated ()
         {
@@ -182,19 +240,42 @@ namespace tankgame.Screens
                 throw new System.Exception("This type has been loaded with a Global content manager, then loaded with a non-global.  This can lead to a lot of bugs");
             }
             #endif
+            forest_tiles = FlatRedBall.FlatRedBallServices.Load<Microsoft.Xna.Framework.Graphics.Texture2D>(@"content/screens/gamescreen/forest_tiles.png", contentManagerName);
+            woods = FlatRedBall.TileGraphics.LayeredTileMap.FromTiledMapSave("content/screens/gamescreen/woods.tmx", contentManagerName);
             CustomLoadStaticContent(contentManagerName);
         }
         [System.Obsolete("Use GetFile instead")]
         public static object GetStaticMember (string memberName)
         {
+            switch(memberName)
+            {
+                case  "forest_tiles":
+                    return forest_tiles;
+                case  "woods":
+                    return woods;
+            }
             return null;
         }
         public static object GetFile (string memberName)
         {
+            switch(memberName)
+            {
+                case  "forest_tiles":
+                    return forest_tiles;
+                case  "woods":
+                    return woods;
+            }
             return null;
         }
         object GetMember (string memberName)
         {
+            switch(memberName)
+            {
+                case  "forest_tiles":
+                    return forest_tiles;
+                case  "woods":
+                    return woods;
+            }
             return null;
         }
     }
