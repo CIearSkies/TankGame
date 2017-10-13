@@ -4,6 +4,7 @@ using System.Text;
 using FlatRedBall;
 using FlatRedBall.Input;
 using Microsoft.Xna.Framework.Input;
+using FlatRedBall.Math.Geometry;
 
 namespace tankgame.Entities
 {
@@ -25,6 +26,18 @@ namespace tankgame.Entities
             buttonMap.B = Keys.S;
             buttonMap.X = Keys.Q;
             buttonMap.Y = Keys.W;
+
+            var points = new List<FlatRedBall.Math.Geometry.Point>
+            {
+                  new Point(-17, 34.5),
+                  new Point(17, 34.5),
+                  new Point(17, -34.5),
+                  new Point(-17, -34.5),
+                  new Point(-17, 34.5)
+                  // repeat the last point to close the shape
+                  
+            };
+            Hitbox.Points = points;
 
             InputManager.Xbox360GamePads[0].ButtonMap = buttonMap;
         }
@@ -57,6 +70,8 @@ namespace tankgame.Entities
         void TurningActivity()
         {
             this.RotationZVelocity = -mGamePad.LeftStick.Position.X * 0.7f;
+            
+            
         }
     }
 }
