@@ -344,11 +344,11 @@
   <DisplaySettings>
     <Is2D>true</Is2D>
     <GenerateDisplayCode>true</GenerateDisplayCode>
-    <ResolutionWidth>1920</ResolutionWidth>
-    <ResolutionHeight>1080</ResolutionHeight>
+    <ResolutionWidth>1888</ResolutionWidth>
+    <ResolutionHeight>1056</ResolutionHeight>
     <FixedAspectRatio>true</FixedAspectRatio>
-    <AspectRatioWidth>16</AspectRatioWidth>
-    <AspectRatioHeight>9</AspectRatioHeight>
+    <AspectRatioWidth>1888</AspectRatioWidth>
+    <AspectRatioHeight>1056</AspectRatioHeight>
     <SupportLandscape>true</SupportLandscape>
     <SupportPortrait>false</SupportPortrait>
     <RunInFullScreen>false</RunInFullScreen>
