@@ -5,6 +5,7 @@ using System.Linq;
 
 using FlatRedBall;
 using FlatRedBall.TileCollisions;
+using tankgame.Entities;
 using FlatRedBall.Input;
 using FlatRedBall.Instructions;
 using FlatRedBall.AI.Pathfinding;
@@ -25,7 +26,7 @@ namespace tankgame.Screens
             Camera.Main.X = Camera.Main.OrthogonalWidth / 2.0f;
             Camera.Main.Y = -1 * Camera.Main.OrthogonalHeight / 2.0f;
             wallCollision = new FlatRedBall.TileCollisions.TileShapeCollection();
-            //wallCollision.Visible = true;
+            wallCollision.Visible = false;
             wallCollision.AddCollisionFrom(woods, new List<String> { "Tree1", "Tree3", "Tree2", "Tree4", "Tree5", "Tree6", "Plant",
                 "Log1", "Log2", "Log3","Log4", "Log5", "Log6", "Log7", "Log8", "Grass", "InvisiWall",
                 "Water1", "Water2", "Water3", "Water4", "Water5", "Water6", "Water7", "Water8", "Water9", "Water10",
@@ -34,13 +35,29 @@ namespace tankgame.Screens
                 "Water31", "Water32", "Water33", "Water34", "Water35", "Water36", "Water37", "Water38", "Water39", "Water40",
                 "Water41", "Water42",
                 "Stone1", "Stone2"});
+
+
             
         }
 
 		void CustomActivity(bool firstTimeCalled)
 		{
             wallCollision.CollideAgainstSolid(Player1Tank);
+            BulletCollision();
+        }
 
+        void BulletCollision()
+        {
+            for (int i = BulletList.Count - 1; i > -1; i--)
+            {
+                Bullet bullet = BulletList[i];
+                if (wallCollision.CollideAgainstSolid(bullet.CircleInstance))
+                {
+                    FlatRedBall.Debugging.Debugger.Write("WTF");
+                    bullet.Destroy();
+                    break;
+                }
+            }
         }
 
 		void CustomDestroy()

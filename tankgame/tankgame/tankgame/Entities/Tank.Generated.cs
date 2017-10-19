@@ -128,11 +128,13 @@ namespace tankgame.Entities
             Sprite.FlipHorizontal = false;
             Sprite.FlipVertical = true;
             Sprite.TextureScale = 0.3f;
+            Sprite.Visible = true;
             if (mHitbox.Parent == null)
             {
                 mHitbox.CopyAbsoluteToRelative();
                 mHitbox.AttachTo(this, false);
             }
+            Hitbox.Visible = false;
             FlatRedBall.Math.Geometry.Point[] HitboxPoints = new FlatRedBall.Math.Geometry.Point[] { new FlatRedBall.Math.Geometry.Point(0, 16), new FlatRedBall.Math.Geometry.Point(16, 0), new FlatRedBall.Math.Geometry.Point(-16, 0),  new FlatRedBall.Math.Geometry.Point(0, 16) };
             Hitbox.Points = HitboxPoints;
             mGeneratedCollision = new FlatRedBall.Math.Geometry.ShapeCollection();
@@ -165,6 +167,8 @@ namespace tankgame.Entities
             Sprite.FlipHorizontal = false;
             Sprite.FlipVertical = true;
             Sprite.TextureScale = 0.3f;
+            Sprite.Visible = true;
+            Hitbox.Visible = false;
             Drag = 1f;
             MovementSpeed = 1f;
         }

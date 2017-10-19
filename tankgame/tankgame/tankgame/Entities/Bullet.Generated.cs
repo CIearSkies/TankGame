@@ -13,9 +13,10 @@ using FlatRedBall.Screens;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using FlatRedBall.Math.Geometry;
 namespace tankgame.Entities
 {
-    public partial class Bullet : FlatRedBall.PositionedObject, FlatRedBall.Graphics.IDestroyable, FlatRedBall.Performance.IPoolable
+    public partial class Bullet : FlatRedBall.PositionedObject, FlatRedBall.Graphics.IDestroyable, FlatRedBall.Performance.IPoolable, FlatRedBall.Math.Geometry.ICollidable
     {
         // This is made static so that static lazy-loaded content can access it.
         public static string ContentManagerName { get; set; }
@@ -28,9 +29,29 @@ namespace tankgame.Entities
         protected static Microsoft.Xna.Framework.Graphics.Texture2D shell;
         
         private FlatRedBall.Sprite BulletSprite;
+        private FlatRedBall.Math.Geometry.Circle mCircleInstance;
+        public FlatRedBall.Math.Geometry.Circle CircleInstance
+        {
+            get
+            {
+                return mCircleInstance;
+            }
+            private set
+            {
+                mCircleInstance = value;
+            }
+        }
         public float MovementSpeed = 400f;
         public int Index { get; set; }
         public bool Used { get; set; }
+        private FlatRedBall.Math.Geometry.ShapeCollection mGeneratedCollision;
+        public FlatRedBall.Math.Geometry.ShapeCollection Collision
+        {
+            get
+            {
+                return mGeneratedCollision;
+            }
+        }
         protected FlatRedBall.Graphics.Layer LayerProvidedByContainer = null;
         public Bullet ()
         	: this(FlatRedBall.Screens.ScreenManager.CurrentScreen.ContentManagerName, true)
@@ -51,6 +72,8 @@ namespace tankgame.Entities
             LoadStaticContent(ContentManagerName);
             BulletSprite = new FlatRedBall.Sprite();
             BulletSprite.Name = "BulletSprite";
+            mCircleInstance = new FlatRedBall.Math.Geometry.Circle();
+            mCircleInstance.Name = "mCircleInstance";
             
             PostInitialize();
             if (addToManagers)
@@ -63,12 +86,14 @@ namespace tankgame.Entities
             LayerProvidedByContainer = layerToAddTo;
             FlatRedBall.SpriteManager.AddPositionedObject(this);
             FlatRedBall.SpriteManager.AddToLayer(BulletSprite, LayerProvidedByContainer);
+            FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(mCircleInstance, LayerProvidedByContainer);
         }
         public virtual void AddToManagers (FlatRedBall.Graphics.Layer layerToAddTo)
         {
             LayerProvidedByContainer = layerToAddTo;
             FlatRedBall.SpriteManager.AddPositionedObject(this);
             FlatRedBall.SpriteManager.AddToLayer(BulletSprite, LayerProvidedByContainer);
+            FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(mCircleInstance, LayerProvidedByContainer);
             AddToManagersBottomUp(layerToAddTo);
             CustomInitialize();
         }
@@ -89,6 +114,11 @@ namespace tankgame.Entities
             {
                 FlatRedBall.SpriteManager.RemoveSpriteOneWay(BulletSprite);
             }
+            if (CircleInstance != null)
+            {
+                FlatRedBall.Math.Geometry.ShapeManager.RemoveOneWay(CircleInstance);
+            }
+            mGeneratedCollision.RemoveFromManagers(clearThis: false);
             CustomDestroy();
         }
         public virtual void PostInitialize ()
@@ -102,6 +132,31 @@ namespace tankgame.Entities
             }
             BulletSprite.Texture = shell;
             BulletSprite.TextureScale = 0.15f;
+            if (mCircleInstance.Parent == null)
+            {
+                mCircleInstance.CopyAbsoluteToRelative();
+                mCircleInstance.AttachTo(this, false);
+            }
+            if (CircleInstance.Parent == null)
+            {
+                CircleInstance.X = 0.5f;
+            }
+            else
+            {
+                CircleInstance.RelativeX = 0.5f;
+            }
+            if (CircleInstance.Parent == null)
+            {
+                CircleInstance.Y = 5f;
+            }
+            else
+            {
+                CircleInstance.RelativeY = 5f;
+            }
+            CircleInstance.Radius = 3f;
+            CircleInstance.Visible = false;
+            mGeneratedCollision = new FlatRedBall.Math.Geometry.ShapeCollection();
+            mGeneratedCollision.Circles.AddOneWay(mCircleInstance);
             FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue = oldShapeManagerSuppressAdd;
         }
         public virtual void AddToManagersBottomUp (FlatRedBall.Graphics.Layer layerToAddTo)
@@ -115,6 +170,11 @@ namespace tankgame.Entities
             {
                 FlatRedBall.SpriteManager.RemoveSpriteOneWay(BulletSprite);
             }
+            if (CircleInstance != null)
+            {
+                FlatRedBall.Math.Geometry.ShapeManager.RemoveOneWay(CircleInstance);
+            }
+            mGeneratedCollision.RemoveFromManagers(clearThis: false);
         }
         public virtual void AssignCustomVariables (bool callOnContainedElements)
         {
@@ -123,6 +183,24 @@ namespace tankgame.Entities
             }
             BulletSprite.Texture = shell;
             BulletSprite.TextureScale = 0.15f;
+            if (CircleInstance.Parent == null)
+            {
+                CircleInstance.X = 0.5f;
+            }
+            else
+            {
+                CircleInstance.RelativeX = 0.5f;
+            }
+            if (CircleInstance.Parent == null)
+            {
+                CircleInstance.Y = 5f;
+            }
+            else
+            {
+                CircleInstance.RelativeY = 5f;
+            }
+            CircleInstance.Radius = 3f;
+            CircleInstance.Visible = false;
             MovementSpeed = 400f;
         }
         public virtual void ConvertToManuallyUpdated ()
@@ -232,6 +310,7 @@ namespace tankgame.Entities
         {
             FlatRedBall.Instructions.InstructionManager.IgnorePausingFor(this);
             FlatRedBall.Instructions.InstructionManager.IgnorePausingFor(BulletSprite);
+            FlatRedBall.Instructions.InstructionManager.IgnorePausingFor(CircleInstance);
         }
         public virtual void MoveToLayer (FlatRedBall.Graphics.Layer layerToMoveTo)
         {
@@ -241,6 +320,11 @@ namespace tankgame.Entities
                 layerToRemoveFrom.Remove(BulletSprite);
             }
             FlatRedBall.SpriteManager.AddToLayer(BulletSprite, layerToMoveTo);
+            if (layerToRemoveFrom != null)
+            {
+                layerToRemoveFrom.Remove(CircleInstance);
+            }
+            FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(CircleInstance, layerToMoveTo);
             LayerProvidedByContainer = layerToMoveTo;
         }
     }
