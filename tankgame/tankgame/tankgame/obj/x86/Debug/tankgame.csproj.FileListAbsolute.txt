@@ -24,3 +24,4 @@ C:\Users\Trist\Documents\gitKraken\TankGame\TankGame\tankgame\tankgame\tankgame\
 C:\Users\Trist\Documents\gitKraken\TankGame\TankGame\tankgame\tankgame\tankgame\bin\x86\Debug\Content\Screens\GameScreen\forest_tiles.png
 C:\Users\Trist\Documents\gitKraken\TankGame\TankGame\tankgame\tankgame\tankgame\bin\x86\Debug\Content\Screens\GameScreen\woods.tmx
 C:\Users\Trist\Documents\gitKraken\TankGame\TankGame\tankgame\tankgame\tankgame\obj\x86\Debug\tankgame.csprojResolveAssemblyReference.cache
+C:\Users\Trist\Documents\gitKraken\TankGame\TankGame\tankgame\tankgame\tankgame\bin\x86\Debug\Content\Entities\Bullet\shell.png

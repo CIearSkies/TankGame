@@ -127,6 +127,7 @@
     <Compile Include="Entities\Wall.Generated.cs">
       <DependentUpon>Wall.cs</DependentUpon>
     </Compile>
+    <Compile Include="Factories\BulletFactory.Generated.cs" />
     <Compile Include="FileAliases.Generated.cs" />
     <Compile Include="GlobalContent.Generated.cs" />
     <Compile Include="Performance\IEntityFactory.Generated.cs" />

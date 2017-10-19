@@ -5,15 +5,19 @@ using FlatRedBall;
 using FlatRedBall.Input;
 using Microsoft.Xna.Framework.Input;
 using FlatRedBall.Math.Geometry;
+using tankgame.Factories;
+using System.Threading;
+using System.Timers;
 
 namespace tankgame.Entities
 {
-	public partial class Tank
-	{
-        
+    public partial class Tank
+    {
+        Boolean shoot = true;
+        System.Timers.Timer timer;
         Xbox360GamePad mGamePad;
         private void CustomInitialize()
-		{
+        {
             mGamePad = InputManager.Xbox360GamePads[0];
             KeyboardButtonMap buttonMap = new KeyboardButtonMap();
 
@@ -22,7 +26,7 @@ namespace tankgame.Entities
             buttonMap.LeftAnalogUp = Keys.Up;
             buttonMap.LeftAnalogDown = Keys.Down;
 
-            buttonMap.A = Keys.A;
+            buttonMap.A = Keys.Space;
             buttonMap.B = Keys.S;
             buttonMap.X = Keys.Q;
             buttonMap.Y = Keys.W;
@@ -40,17 +44,50 @@ namespace tankgame.Entities
             Hitbox.Points = points;
 
             InputManager.Xbox360GamePads[0].ButtonMap = buttonMap;
+            makeTimer();
         }
 
-		private void CustomActivity()
-		{
+        public void Handler(object sender, ElapsedEventArgs e)
+        {
+            
+            shoot = true;
+        }
+        private void CustomActivity()
+        {
             MovementActivity();
             TurningActivity();
+            ShootingActivity();
         }
 
-		private void CustomDestroy()
-		{
-		}
+        public void makeTimer()
+        {
+            System.Timers.Timer timer = new System.Timers.Timer(4000);
+            timer.Elapsed += Handler;
+            timer.Start();
+        }
+
+        private void ShootingActivity()
+        {
+            if (mGamePad.ButtonPushed(Xbox360GamePad.Button.A) && shoot)
+            {
+                // We'll create 2 bullets because it looks much cooler than 1
+                Bullet firstBullet = BulletFactory.CreateNew();
+                firstBullet.Position = this.Position;
+                firstBullet.Position += this.RotationMatrix.Up * 12;
+                // This is the bullet on the right side when the ship is facing up.
+                // Adding along the Right vector will move it to the right relative to the ship
+                firstBullet.Position += this.RotationMatrix.Right * 6;
+                firstBullet.RotationZ = this.RotationZ;
+                firstBullet.Velocity = this.RotationMatrix.Up * firstBullet.MovementSpeed;
+                
+                shoot = false;
+            }
+
+        }
+
+        private void CustomDestroy()
+        {
+        }
 
         private static void CustomLoadStaticContent(string contentManagerName)
         {
@@ -58,20 +95,20 @@ namespace tankgame.Entities
 
         void MovementActivity()
         {
-            if(mGamePad.LeftStick.Position.Y == 1)
-             this.Acceleration = -this.RotationMatrix.Up * MovementSpeed;
+            if (mGamePad.LeftStick.Position.Y == 1)
+                this.Acceleration = -this.RotationMatrix.Up * 100;
             else { this.Acceleration -= this.Acceleration; }
 
             if (mGamePad.LeftStick.Position.Y == -1)
-                this.Acceleration = -this.RotationMatrix.Up * MovementSpeed;
-            else { this.Acceleration =- this.Acceleration; }
+                this.Acceleration = -this.RotationMatrix.Up * 100;
+            else { this.Acceleration = -this.Acceleration; }
         }
 
         void TurningActivity()
         {
             this.RotationZVelocity = -mGamePad.LeftStick.Position.X * 0.7f;
-            
-            
         }
     }
 }
+
+    

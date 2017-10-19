@@ -3,6 +3,7 @@
 #endif
 using Color = Microsoft.Xna.Framework.Color;
 using tankgame.Entities;
+using tankgame.Factories;
 using FlatRedBall;
 using FlatRedBall.Screens;
 using System;
@@ -50,6 +51,7 @@ namespace tankgame.Screens
         public override void AddToManagers ()
         {
             woods.AddToManagers(mLayer);
+            BulletFactory.Initialize(BulletList, ContentManagerName);
             Player1Tank.AddToManagers(mLayer);
             base.AddToManagers();
             AddToManagersBottomUp();
@@ -97,6 +99,7 @@ namespace tankgame.Screens
         public override void Destroy ()
         {
             base.Destroy();
+            BulletFactory.Destroy();
             forest_tiles = null;
             woods.Destroy();
             woods = null;

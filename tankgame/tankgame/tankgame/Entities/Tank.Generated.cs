@@ -6,6 +6,7 @@ using tankgame.Screens;
 using FlatRedBall.Graphics;
 using FlatRedBall.Math;
 using tankgame.Entities;
+using tankgame.Factories;
 using FlatRedBall;
 using FlatRedBall.Screens;
 using System;
@@ -39,7 +40,7 @@ namespace tankgame.Entities
                 mHitbox = value;
             }
         }
-        public float MovementSpeed = 150f;
+        public float MovementSpeed = 1f;
         public float TurningSpeed;
         private FlatRedBall.Math.Geometry.ShapeCollection mGeneratedCollision;
         public FlatRedBall.Math.Geometry.ShapeCollection Collision
@@ -165,7 +166,7 @@ namespace tankgame.Entities
             Sprite.FlipVertical = true;
             Sprite.TextureScale = 0.3f;
             Drag = 1f;
-            MovementSpeed = 150f;
+            MovementSpeed = 1f;
         }
         public virtual void ConvertToManuallyUpdated ()
         {

@@ -45,6 +45,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Entities\Bullet\shell.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>shell</Name>
+    </None>
     <None Include="Entities\Tank\PZiv.PNG">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>PZiv</Name>
