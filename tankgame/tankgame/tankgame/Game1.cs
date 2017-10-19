@@ -18,6 +18,7 @@ namespace tankgame
     public class Game1 : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
+        public bool player1 = false;
 
         public Game1() : base ()
         {
@@ -95,10 +96,15 @@ namespace tankgame
                 Int32 bytes = stream.Read(data, 0, data.Length);
                 responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
                 Console.WriteLine("Received: {0}", responseData);
-
-                // Close everything.
-                stream.Close();
-                client.Close();
+                
+                if(responseData == "player1")
+                {
+                    player1 = true;
+                }
+                else if(responseData == "player2")
+                {
+                    player1 = false;
+                }
             }
             catch (ArgumentNullException e)
             {
@@ -108,9 +114,6 @@ namespace tankgame
             {
                 Console.WriteLine("SocketException: {0}", e);
             }
-
-            Console.WriteLine("\n Press Enter to continue...");
-            Console.Read();
         }
 
 
