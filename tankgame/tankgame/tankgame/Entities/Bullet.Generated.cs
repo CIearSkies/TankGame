@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Text;
 namespace tankgame.Entities
 {
-    public partial class Player1Tank : FlatRedBall.PositionedObject, FlatRedBall.Graphics.IDestroyable
+    public partial class Bullet : FlatRedBall.PositionedObject, FlatRedBall.Graphics.IDestroyable
     {
         // This is made static so that static lazy-loaded content can access it.
         public static string ContentManagerName { get; set; }
@@ -25,15 +25,15 @@ namespace tankgame.Entities
         static System.Collections.Generic.List<string> LoadedContentManagers = new System.Collections.Generic.List<string>();
         
         protected FlatRedBall.Graphics.Layer LayerProvidedByContainer = null;
-        public Player1Tank ()
+        public Bullet ()
         	: this(FlatRedBall.Screens.ScreenManager.CurrentScreen.ContentManagerName, true)
         {
         }
-        public Player1Tank (string contentManagerName)
+        public Bullet (string contentManagerName)
         	: this(contentManagerName, true)
         {
         }
-        public Player1Tank (string contentManagerName, bool addToManagers)
+        public Bullet (string contentManagerName, bool addToManagers)
         	: base()
         {
             ContentManagerName = contentManagerName;
@@ -122,7 +122,7 @@ namespace tankgame.Entities
                 {
                     if (!mRegisteredUnloads.Contains(ContentManagerName) && ContentManagerName != FlatRedBall.FlatRedBallServices.GlobalContentManager)
                     {
-                        FlatRedBall.FlatRedBallServices.GetContentManagerByName(ContentManagerName).AddUnloadMethod("Player1TankStaticUnload", UnloadStaticContent);
+                        FlatRedBall.FlatRedBallServices.GetContentManagerByName(ContentManagerName).AddUnloadMethod("BulletStaticUnload", UnloadStaticContent);
                         mRegisteredUnloads.Add(ContentManagerName);
                     }
                 }
@@ -133,7 +133,7 @@ namespace tankgame.Entities
                 {
                     if (!mRegisteredUnloads.Contains(ContentManagerName) && ContentManagerName != FlatRedBall.FlatRedBallServices.GlobalContentManager)
                     {
-                        FlatRedBall.FlatRedBallServices.GetContentManagerByName(ContentManagerName).AddUnloadMethod("Player1TankStaticUnload", UnloadStaticContent);
+                        FlatRedBall.FlatRedBallServices.GetContentManagerByName(ContentManagerName).AddUnloadMethod("BulletStaticUnload", UnloadStaticContent);
                         mRegisteredUnloads.Add(ContentManagerName);
                     }
                 }

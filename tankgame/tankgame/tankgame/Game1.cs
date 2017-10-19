@@ -53,8 +53,8 @@ namespace tankgame
 			#endif
 		
             FlatRedBallServices.InitializeFlatRedBall(this, graphics);
-
-			CameraSetup.SetupCamera(SpriteManager.Camera, graphics);
+            FlatRedBallServices.GraphicsOptions.TextureFilter = TextureFilter.Point;
+            CameraSetup.SetupCamera(SpriteManager.Camera, graphics);
 			GlobalContent.Initialize();
 			FlatRedBall.Screens.ScreenManager.Start(typeof(tankgame.Screens.GameScreen));
 
