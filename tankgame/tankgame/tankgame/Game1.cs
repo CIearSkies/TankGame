@@ -12,13 +12,23 @@ using System.Linq;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Net.Sockets;
+using Newtonsoft.Json.Linq;
+using System.Text;
+using Newtonsoft.Json;
+using System.Threading;
 
 namespace tankgame
 {
     public class Game1 : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
-        bool player1 = false;
+        NetworkStream stream;
+        string player;
+        byte[] buffer;
+        byte[] request;
+        byte[] prefix;
+        string message;
+        dynamic toJson;
 
         public Game1() : base ()
         {
@@ -53,58 +63,57 @@ namespace tankgame
 			graphics.PreferredBackBufferWidth = screenWidth;
 			graphics.PreferredBackBufferHeight = screenHeight;
 			#endif
-		
-            FlatRedBallServices.InitializeFlatRedBall(this, graphics);
-            FlatRedBallServices.GraphicsOptions.TextureFilter = TextureFilter.Point;
-            CameraSetup.SetupCamera(SpriteManager.Camera, graphics);
-			GlobalContent.Initialize();
-			FlatRedBall.Screens.ScreenManager.Start(typeof(tankgame.Screens.GameScreen));
-
-            base.Initialize();
-
+	
             try
             {
-                // Create a TcpClient.
-                // Note, for this client to work you need to have a TcpServer 
-                // connected to the same address as specified by the server, port
-                // combination.
+
                 Int32 port = 13000;
                 TcpClient client = new TcpClient("127.0.0.1", port);
 
-                // Translate the passed message into ASCII and store it as a Byte array.
-                Byte[] data = System.Text.Encoding.ASCII.GetBytes("hallo");
+                stream = client.GetStream();
 
-                // Get a client stream for reading and writing.
-                //  Stream stream = client.GetStream();
-
-                NetworkStream stream = client.GetStream();
-
-                // Send the message to the connected TcpServer. 
-                stream.Write(data, 0, data.Length);
-
-                Console.WriteLine("Sent: {0}", "hallo");
-
-                // Receive the TcpServer.response.
-
-                // Buffer to store the response bytes.
-                data = new Byte[256];
-
-                // String to store the response ASCII representation.
-                String responseData = String.Empty;
-
-                // Read the first batch of the TcpServer response bytes.
-                Int32 bytes = stream.Read(data, 0, data.Length);
-                responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
-                Console.WriteLine("Received: {0}", responseData);
-
-                if (responseData == "player1")
+                byte[] preBuffer = new Byte[4];
+                stream.Read(preBuffer, 0, 4);
+                int lenght = BitConverter.ToInt32(preBuffer, 0);
+                byte[] buffer = new Byte[lenght];
+                int totalReceived = 0;
+                while (totalReceived < lenght)
                 {
-                    player1 = true;
+                    int receivedCount = stream.Read(buffer, totalReceived, lenght - totalReceived);
+                    totalReceived += receivedCount;
                 }
-                else if (responseData == "player2")
+                JObject Json = JObject.Parse(Encoding.UTF8.GetString(buffer));
+
+                if (Json.GetValue("id").ToString() == "player1")
                 {
-                    player1 = false;
+                    player = "player1";
                 }
+                else if (Json.GetValue("id").ToString() == "player2")
+                {
+                    player = "player2";
+                }
+                preBuffer = new Byte[4];
+                stream.Read(preBuffer, 0, 4);
+                lenght = BitConverter.ToInt32(preBuffer, 0);
+                buffer = new Byte[lenght];
+                totalReceived = 0;
+                while (totalReceived < lenght)
+                {
+                    int receivedCount = stream.Read(buffer, totalReceived, lenght - totalReceived);
+                    totalReceived += receivedCount;
+                }
+                Json = JObject.Parse(Encoding.UTF8.GetString(buffer));
+                if (Json.GetValue("id").ToString() == "start")
+                {
+                    FlatRedBallServices.InitializeFlatRedBall(this, graphics);
+                    FlatRedBallServices.GraphicsOptions.TextureFilter = TextureFilter.Point;
+                    CameraSetup.SetupCamera(SpriteManager.Camera, graphics);
+                    GlobalContent.Initialize();
+                    FlatRedBall.Screens.ScreenManager.Start(typeof(tankgame.Screens.GameScreen));
+
+                    base.Initialize();
+                }
+
             }
             catch (ArgumentNullException e)
             {
@@ -124,6 +133,43 @@ namespace tankgame
             FlatRedBall.Screens.ScreenManager.Activity();
 
             base.Update(gameTime);
+
+            if (player == "player1")
+            {
+
+                toJson = new
+                {
+                    id = "player1/position"
+                };
+                message = JsonConvert.SerializeObject(toJson);
+
+                prefix = BitConverter.GetBytes(message.Length);
+                request = Encoding.Default.GetBytes(message);
+
+                buffer = new Byte[prefix.Length + message.Length];
+                prefix.CopyTo(buffer, 0);
+                request.CopyTo(buffer, prefix.Length);
+
+                stream.Write(buffer, 0, buffer.Length);
+
+            } else if (player == "player2")
+            {
+
+                toJson = new
+                {
+                    id = "player2/position"
+                };
+                message = JsonConvert.SerializeObject(toJson);
+
+                prefix = BitConverter.GetBytes(message.Length);
+                request = Encoding.Default.GetBytes(message);
+
+                buffer = new Byte[prefix.Length + message.Length];
+                prefix.CopyTo(buffer, 0);
+                request.CopyTo(buffer, prefix.Length);
+
+                stream.Write(buffer, 0, buffer.Length);
+            }
         }
 
         protected override void Draw(GameTime gameTime)

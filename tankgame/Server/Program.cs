@@ -14,9 +14,17 @@ namespace Server
 {
     class Server
     {
-        Stream stream;
+        JObject jsondata;
+        NetworkStream stream;
+        NetworkStream player1stream;
+        NetworkStream player2stream;
         bool player1exists = false;
-        bool allowed = true;
+        byte[] buffer;
+        byte[] request;
+        byte[] prefix;
+        string message;
+        dynamic toJson;
+        bool klaar;
         static void Main(string[] args)
         {
             new Server();
@@ -39,8 +47,7 @@ namespace Server
                 server.Start();
 
                 // Buffer for reading data
-
-
+               
                 // Enter the listening loop.
                 while (true)
                 {
@@ -52,12 +59,88 @@ namespace Server
                     // Get a stream object for reading and writing
                     stream = client.GetStream();
 
-                    Thread clientThread = new Thread(new ParameterizedThreadStart(HandleClientComm));
+                    if (!player1exists)
+                    {
+                        Console.WriteLine("player1");
 
-                    clientThread.Start(client);
+                        dynamic toJson = new
+                        {
+                            id = "player1",
+                            data = new
+                            {
+                            }
+                        };
+                        string message = JsonConvert.SerializeObject(toJson);
+
+                        byte[] prefix = BitConverter.GetBytes(message.Length);
+                        byte[] request = Encoding.Default.GetBytes(message);
+
+                        byte[] buffer = new Byte[prefix.Length + message.Length];
+                        prefix.CopyTo(buffer, 0);
+                        request.CopyTo(buffer, prefix.Length);
+
+                        stream.Write(buffer, 0, buffer.Length);
+
+                        player1stream = stream;
+                        
+                        player1exists = true;
+                    }
+                    else if (player1exists)
+                    {
+                        Console.WriteLine("player2");
+
+                        dynamic toJson = new
+                        {
+                            id = "player2",
+                            data = new
+                            {
+                            }
+                        };
+                        string message = JsonConvert.SerializeObject(toJson);
+
+                        byte[] prefix = BitConverter.GetBytes(message.Length);
+                        byte[] request = Encoding.Default.GetBytes(message);
+
+                        byte[] buffer = new Byte[prefix.Length + message.Length];
+                        prefix.CopyTo(buffer, 0);
+                        request.CopyTo(buffer, prefix.Length);
+
+                        stream.Write(buffer, 0, buffer.Length);
+                        
+
+                        player2stream = stream;
+                        klaar = true;
+                    }
 
 
+                    Thread playerThread = new Thread(HandlePlayerComm);
+
+                    playerThread.Start(client);
+
+                    if (klaar) {
+
+                        dynamic start = new
+                        {
+                            id = "start",
+                            data = new
+                            {
+                            }
+                        };
+                        message = JsonConvert.SerializeObject(start);
+
+                        prefix = BitConverter.GetBytes(message.Length);
+                        request = Encoding.Default.GetBytes(message);
+
+                        buffer = new Byte[prefix.Length + message.Length];
+                        prefix.CopyTo(buffer, 0);
+                        request.CopyTo(buffer, prefix.Length);
+
+                        player1stream.Write(buffer, 0, buffer.Length);
+                        player2stream.Write(buffer, 0, buffer.Length);
+                        break;
+                    }
                 }
+
             }
             catch (SocketException e)
             {
@@ -68,50 +151,105 @@ namespace Server
                 // Stop listening for new clients.
                 server.Stop();
             }
-
-
-
-            Console.WriteLine("\nHit enter to continue...");
-            Console.Read();
+           
         }
 
-        private void HandleClientComm(object client)
+        private void HandlePlayerComm(object client)
         {
-            int i;
-            Byte[] bytes = new Byte[256];
-            string data = null;
-            byte[] msg;
-            // Process the data sent by the client.
-            while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
+            
+                while (true)
             {
-                data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
-                Console.WriteLine("Received: {0}", data);
-
-                //SaveData(JsonConvert.SerializeObject(data));
-                if (!player1exists && allowed)
-                {
-                    msg = System.Text.Encoding.ASCII.GetBytes("player1");
-                    stream.Write(msg, 0, msg.Length);
-                    Console.WriteLine("Sent: {0}", "player1");
-                    player1exists = true;
-                } else if(player1exists && allowed)
-                {
-                    msg = System.Text.Encoding.ASCII.GetBytes("player2");
-                    stream.Write(msg, 0, msg.Length);
-                    Console.WriteLine("Sent: {0}", "player2");
-                    allowed = false;
-                } else
-                {
-                    Console.WriteLine("NORMIES GET OUT REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
-                }
-
-
-                // Send back a response.
                 
-            }
-            // Shutdown and end connection
+                jsondata = ReadObject();
+                    if (jsondata.GetValue("id").ToString() == "player1/position")
+                    {
+                        Console.WriteLine(jsondata);
+                        message = JsonConvert.SerializeObject(jsondata);
 
-        }
+                        prefix = BitConverter.GetBytes(message.Length);
+                        request = Encoding.Default.GetBytes(message);
+
+                    buffer = new Byte[prefix.Length + message.Length];
+                        prefix.CopyTo(buffer, 0);
+                        request.CopyTo(buffer, prefix.Length);
+
+                        //player2stream.Write(buffer, 0, buffer.Length);
+                    } else if (jsondata.GetValue("id").ToString() == "player2/position")
+                    {
+                    Console.WriteLine(jsondata);
+                    message = JsonConvert.SerializeObject(jsondata);
+
+                    prefix = BitConverter.GetBytes(message.Length);
+                    request = Encoding.Default.GetBytes(message);
+
+                    buffer = new Byte[prefix.Length + message.Length];
+                    prefix.CopyTo(buffer, 0);
+                    request.CopyTo(buffer, prefix.Length);
+
+                    player1stream.Write(buffer, 0, buffer.Length);
+                }
+                }
+            }
+        
+
+        private void HandlePlayer2Comm(object client)
+        {
+            dynamic toJson = new
+            {
+                id = "player2",
+                data = new
+                {
+                }
+            };
+            string message = JsonConvert.SerializeObject(toJson);
+
+            byte[] prefix = BitConverter.GetBytes(message.Length);
+            byte[] request = Encoding.Default.GetBytes(message);
+
+            byte[] buffer = new Byte[prefix.Length + message.Length];
+            prefix.CopyTo(buffer, 0);
+            request.CopyTo(buffer, prefix.Length);
+
+            player2stream.Write(buffer, 0, buffer.Length);
+            dynamic start = new
+            {
+                id = "start",
+                data = new
+                {
+                }
+            };
+            message = JsonConvert.SerializeObject(start);
+
+            prefix = BitConverter.GetBytes(message.Length);
+            request = Encoding.Default.GetBytes(message);
+
+            buffer = new Byte[prefix.Length + message.Length];
+            prefix.CopyTo(buffer, 0);
+            request.CopyTo(buffer, prefix.Length);
+
+            player1stream.Write(buffer, 0, buffer.Length);
+            player2stream.Write(buffer, 0, buffer.Length);
+                while (true)
+                {
+
+                    jsondata = ReadObject();
+                    if (jsondata.GetValue("id").ToString() == "player2/position")
+                    {
+                        Console.WriteLine(jsondata);
+                        message = JsonConvert.SerializeObject(jsondata);
+
+                        prefix = BitConverter.GetBytes(message.Length);
+                        request = Encoding.Default.GetBytes(message);
+
+                        buffer = new Byte[prefix.Length + message.Length];
+                        prefix.CopyTo(buffer, 0);
+                        request.CopyTo(buffer, prefix.Length);
+
+                        player1stream.Write(buffer, 0, buffer.Length);
+                    }
+                }
+            }
+        
 
 
 
@@ -128,8 +266,10 @@ namespace Server
                 int receivedCount = stream.Read(buffer, totalReceived, lenght - totalReceived);
                 totalReceived += receivedCount;
             }
+            Console.WriteLine(Encoding.UTF8.GetString(buffer));
             JObject Json = JObject.Parse(Encoding.UTF8.GetString(buffer));
-            Console.WriteLine(Json);
+            
+           // Console.WriteLine(Json);
             return Json;
         }
 

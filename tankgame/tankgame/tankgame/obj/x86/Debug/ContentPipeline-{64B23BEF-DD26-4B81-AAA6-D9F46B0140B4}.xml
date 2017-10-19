@@ -8,15 +8,15 @@
       <TargetProfile>HiDef</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>C:\Users\Trist\Documents\gitKraken\TankGame\TankGame\tankgame\tankgame\tankgameContent\</RootDirectory>
-      <LoggerRootDirectory>C:\Users\Trist\Documents\gitKraken\TankGame\TankGame\tankgame\tankgame\tankgame\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\Users\Trist\Documents\gitKraken\TankGame\TankGame\tankgame\tankgame\tankgame\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>C:\Users\Trist\Documents\gitKraken\TankGame\TankGame\tankgame\tankgame\tankgame\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>C:\Users\tmbro\Documents\Avans\jaar 2\programmeren C#\tankgame\tankgame\tankgame\tankgameContent\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\tmbro\Documents\Avans\jaar 2\programmeren C#\tankgame\tankgame\tankgame\tankgame\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\tmbro\Documents\Avans\jaar 2\programmeren C#\tankgame\tankgame\tankgame\tankgame\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\tmbro\Documents\Avans\jaar 2\programmeren C#\tankgame\tankgame\tankgame\tankgame\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
         <Key>C:\WINDOWS\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2017-10-05T11:51:49.6834031+02:00</Value>
+        <Value>2017-10-05T11:49:44.9408575+02:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>
