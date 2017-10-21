@@ -16,6 +16,7 @@ using Newtonsoft.Json.Linq;
 using System.Text;
 using Newtonsoft.Json;
 using System.Threading;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace tankgame
 {
@@ -23,12 +24,10 @@ namespace tankgame
     {
         GraphicsDeviceManager graphics;
         NetworkStream stream;
-        string player;
-        byte[] buffer;
-        byte[] request;
-        byte[] prefix;
-        string message;
-        dynamic toJson;
+
+        public Vector3 Position { get; set; }
+        public float Rotation { get; set; }
+        public string Player { get; set; }
 
         public Game1() : base ()
         {
@@ -86,11 +85,11 @@ namespace tankgame
 
                 if (Json.GetValue("id").ToString() == "player1")
                 {
-                    player = "player1";
+                    Player = "player1";
                 }
                 else if (Json.GetValue("id").ToString() == "player2")
                 {
-                    player = "player2";
+                    Player = "player2";
                 }
                 preBuffer = new Byte[4];
                 stream.Read(preBuffer, 0, 4);
@@ -103,6 +102,7 @@ namespace tankgame
                     totalReceived += receivedCount;
                 }
                 Json = JObject.Parse(Encoding.UTF8.GetString(buffer));
+                
                 if (Json.GetValue("id").ToString() == "start")
                 {
                     FlatRedBallServices.InitializeFlatRedBall(this, graphics);
@@ -110,7 +110,6 @@ namespace tankgame
                     CameraSetup.SetupCamera(SpriteManager.Camera, graphics);
                     GlobalContent.Initialize();
                     FlatRedBall.Screens.ScreenManager.Start(typeof(tankgame.Screens.GameScreen));
-
                     base.Initialize();
                 }
 
@@ -133,42 +132,17 @@ namespace tankgame
             FlatRedBall.Screens.ScreenManager.Activity();
 
             base.Update(gameTime);
-
-            if (player == "player1")
+            BinaryFormatter formatter = new BinaryFormatter();
+            if (Player == "player1")
             {
+                    formatter.Serialize(stream, Position);
+                formatter.Serialize(stream, Rotation);
+               
 
-                toJson = new
-                {
-                    id = "player1/position"
-                };
-                message = JsonConvert.SerializeObject(toJson);
-
-                prefix = BitConverter.GetBytes(message.Length);
-                request = Encoding.Default.GetBytes(message);
-
-                buffer = new Byte[prefix.Length + message.Length];
-                prefix.CopyTo(buffer, 0);
-                request.CopyTo(buffer, prefix.Length);
-
-                stream.Write(buffer, 0, buffer.Length);
-
-            } else if (player == "player2")
+            } else if (Player == "player2")
             {
-
-                toJson = new
-                {
-                    id = "player2/position"
-                };
-                message = JsonConvert.SerializeObject(toJson);
-
-                prefix = BitConverter.GetBytes(message.Length);
-                request = Encoding.Default.GetBytes(message);
-
-                buffer = new Byte[prefix.Length + message.Length];
-                prefix.CopyTo(buffer, 0);
-                request.CopyTo(buffer, prefix.Length);
-
-                stream.Write(buffer, 0, buffer.Length);
+                Position = (Vector3) formatter.Deserialize(stream);
+                Rotation = (float) formatter.Deserialize(stream);
             }
         }
 

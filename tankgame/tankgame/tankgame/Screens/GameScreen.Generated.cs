@@ -20,7 +20,7 @@ namespace tankgame.Screens
         protected static FlatRedBall.TileGraphics.LayeredTileMap woods;
         
         private FlatRedBall.Math.PositionedObjectList<tankgame.Entities.Tank> TankList;
-        private tankgame.Entities.Tank Player1Tank;
+        public tankgame.Entities.Tank Player1Tank;
         private FlatRedBall.Math.PositionedObjectList<tankgame.Entities.Wall> WallList;
         private FlatRedBall.Math.PositionedObjectList<tankgame.Entities.Bullet> BulletList;
         public GameScreen ()
