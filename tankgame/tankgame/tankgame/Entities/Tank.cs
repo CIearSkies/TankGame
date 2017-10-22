@@ -68,6 +68,7 @@ namespace tankgame.Entities
             {
                 UpdatePosition();
                 UpdateRotation();
+                UpdateBullet();
             }
         }
 
@@ -91,7 +92,7 @@ namespace tankgame.Entities
                 firstBullet.Position += this.RotationMatrix.Right * 6;
                 firstBullet.RotationZ = this.RotationZ;
                 firstBullet.Velocity = this.RotationMatrix.Up * firstBullet.MovementSpeed;
-                
+                GiveBullet();
                 shoot = false;
             }
 
@@ -140,6 +141,28 @@ namespace tankgame.Entities
         void UpdateRotation()
         {
             this.RotationZ = game.Rotation;
+        }
+
+        void GiveBullet()
+        {
+            game.Shoot = this.shoot;
+        }
+        
+        void UpdateBullet()
+        {
+            this.shoot = game.Shoot;
+            if (this.shoot)
+            {
+                Bullet firstBullet = BulletFactory.CreateNew();
+                firstBullet.Position = this.Position;
+                firstBullet.Position += this.RotationMatrix.Up * 12;
+                // This is the bullet on the right side when the ship is facing up.
+                // Adding along the Right vector will move it to the right relative to the ship
+                firstBullet.Position += this.RotationMatrix.Right * 6;
+                firstBullet.RotationZ = this.RotationZ;
+                firstBullet.Velocity = this.RotationMatrix.Up * firstBullet.MovementSpeed;
+                shoot = false;
+            }
         }
     }
 }

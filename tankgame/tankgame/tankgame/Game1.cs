@@ -26,7 +26,7 @@ namespace tankgame
         public Vector3 Position { get; set; }
         public float Rotation { get; set; }
         public string Player { get; set; }
-
+        public bool Shoot { get; set; }
         public Game1() : base ()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -135,13 +135,14 @@ namespace tankgame
             {
                 formatter.Serialize(stream, Position);
                 formatter.Serialize(stream, Rotation);
-
-
+                formatter.Serialize(stream, Shoot);
+                Shoot = false;
             }
             else if (Player == "player2")
             {
                 Position = (Vector3)formatter.Deserialize(stream);
                 Rotation = (float)formatter.Deserialize(stream);
+                Shoot = (bool)formatter.Deserialize(stream);
             }
         }
 

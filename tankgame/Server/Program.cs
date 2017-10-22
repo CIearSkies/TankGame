@@ -172,7 +172,9 @@ namespace Server
                 object Rotation = formatter.Deserialize(player1stream);
                 Console.WriteLine(Rotation.ToString());
                 formatter.Serialize(player2stream, Rotation);
-
+                object Shoot = formatter.Deserialize(player1stream);
+                Console.WriteLine(Shoot.ToString());
+                formatter.Serialize(player2stream, Shoot);
             }
         }
 
