@@ -125,32 +125,32 @@ namespace tankgame.Entities
         void GivePosition()
         {
 
-            game.Position = this.Position;
+            game.Position1 = this.Position;
         }
 
         void GiveRotation()
         {
-            game.Rotation = this.RotationZ;
+            game.Rotation1 = this.RotationZ;
         }
 
         void UpdatePosition()
         {
-            this.Position = game.Position;
+            this.Position = game.Position1;
         }
 
         void UpdateRotation()
         {
-            this.RotationZ = game.Rotation;
+            this.RotationZ = game.Rotation1;
         }
 
         void GiveBullet()
         {
-            game.Shoot = this.shoot;
+            game.Shoot1 = this.shoot;
         }
         
         void UpdateBullet()
         {
-            this.shoot = game.Shoot;
+            this.shoot = game.Shoot1;
             if (this.shoot)
             {
                 Bullet firstBullet = BulletFactory.CreateNew();

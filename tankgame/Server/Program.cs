@@ -181,12 +181,20 @@ namespace Server
 
         private void HandlePlayer2Comm(object client)
         {
-                while (true)
-                {
-                
-                    
-                }
+            BinaryFormatter formatter = new BinaryFormatter();
+            while (true)
+            {
+                object Position = formatter.Deserialize(player2stream);
+                Console.WriteLine(Position.ToString());
+                formatter.Serialize(player1stream, Position);
+                object Rotation = formatter.Deserialize(player2stream);
+                Console.WriteLine(Rotation.ToString());
+                formatter.Serialize(player1stream, Rotation);
+                object Shoot = formatter.Deserialize(player2stream);
+                Console.WriteLine(Shoot.ToString());
+                formatter.Serialize(player1stream, Shoot);
             }
+        }
         
 
 

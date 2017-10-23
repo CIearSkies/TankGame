@@ -23,10 +23,13 @@ namespace tankgame
         GraphicsDeviceManager graphics;
         NetworkStream stream;
 
-        public Vector3 Position { get; set; }
-        public float Rotation { get; set; }
+        public Vector3 Position1 { get; set; }
+        public float Rotation1 { get; set; }
         public string Player { get; set; }
-        public bool Shoot { get; set; }
+        public bool Shoot1 { get; set; }
+        public Vector3 Position2 { get; set; }
+        public float Rotation2 { get; set; }
+        public bool Shoot2 { get; set; }
         public Game1() : base ()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -133,16 +136,24 @@ namespace tankgame
             BinaryFormatter formatter = new BinaryFormatter();
             if (Player == "player1")
             {
-                formatter.Serialize(stream, Position);
-                formatter.Serialize(stream, Rotation);
-                formatter.Serialize(stream, Shoot);
-                Shoot = false;
+                formatter.Serialize(stream, Position1);
+                formatter.Serialize(stream, Rotation1);
+                formatter.Serialize(stream, Shoot1);
+                Shoot1 = false;
+                Position2 = (Vector3)formatter.Deserialize(stream);
+                Rotation2 = (float)formatter.Deserialize(stream);
+                Shoot2 = (bool)formatter.Deserialize(stream);
+                
             }
             else if (Player == "player2")
             {
-                Position = (Vector3)formatter.Deserialize(stream);
-                Rotation = (float)formatter.Deserialize(stream);
-                Shoot = (bool)formatter.Deserialize(stream);
+                Position1 = (Vector3)formatter.Deserialize(stream);
+                Rotation1 = (float)formatter.Deserialize(stream);
+                Shoot1 = (bool)formatter.Deserialize(stream);
+                formatter.Serialize(stream, Position2);
+                formatter.Serialize(stream, Rotation2);
+                formatter.Serialize(stream, Shoot2);
+                Shoot2 = false;
             }
         }
 
