@@ -11,13 +11,25 @@ using System.Linq;
 
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Net.Sockets;
+using Newtonsoft.Json.Linq;
+using System.Text;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace tankgame
 {
     public class Game1 : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
+        NetworkStream stream;
 
+        public Vector3 Position1 { get; set; }
+        public float Rotation1 { get; set; }
+        public string Player { get; set; }
+        public bool Shoot1 { get; set; }
+        public Vector3 Position2 { get; set; }
+        public float Rotation2 { get; set; }
+        public bool Shoot2 { get; set; }
         public Game1() : base ()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -43,22 +55,74 @@ namespace tankgame
 
         protected override void Initialize()
         {
-			#if IOS
+#if IOS
 			var bounds = UIKit.UIScreen.MainScreen.Bounds;
 			var nativeScale = UIKit.UIScreen.MainScreen.Scale;
 			var screenWidth = (int)(bounds.Width * nativeScale);
 			var screenHeight = (int)(bounds.Height * nativeScale);
 			graphics.PreferredBackBufferWidth = screenWidth;
 			graphics.PreferredBackBufferHeight = screenHeight;
-			#endif
-		
-            FlatRedBallServices.InitializeFlatRedBall(this, graphics);
-            FlatRedBallServices.GraphicsOptions.TextureFilter = TextureFilter.Point;
-            CameraSetup.SetupCamera(SpriteManager.Camera, graphics);
+#endif
+
+            try
+            {
+
+                Int32 port = 13000;
+                TcpClient client = new TcpClient("127.0.0.1", port);
+
+                stream = client.GetStream();
+
+                byte[] preBuffer = new Byte[4];
+                stream.Read(preBuffer, 0, 4);
+                int lenght = BitConverter.ToInt32(preBuffer, 0);
+                byte[] buffer = new Byte[lenght];
+                int totalReceived = 0;
+                while (totalReceived < lenght)
+                {
+                    int receivedCount = stream.Read(buffer, totalReceived, lenght - totalReceived);
+                    totalReceived += receivedCount;
+                }
+                JObject Json = JObject.Parse(Encoding.UTF8.GetString(buffer));
+
+                if (Json.GetValue("id").ToString() == "player1")
+                {
+                    Player = "player1";
+                }
+                else if (Json.GetValue("id").ToString() == "player2")
+                {
+                    Player = "player2";
+                }
+                preBuffer = new Byte[4];
+                stream.Read(preBuffer, 0, 4);
+                lenght = BitConverter.ToInt32(preBuffer, 0);
+                buffer = new Byte[lenght];
+                totalReceived = 0;
+                while (totalReceived < lenght)
+                {
+                    int receivedCount = stream.Read(buffer, totalReceived, lenght - totalReceived);
+                    totalReceived += receivedCount;
+                }
+                Json = JObject.Parse(Encoding.UTF8.GetString(buffer));
+
+                if (Json.GetValue("id").ToString() == "start")
+                {
+                    FlatRedBallServices.InitializeFlatRedBall(this, graphics);
+                    FlatRedBallServices.GraphicsOptions.TextureFilter = TextureFilter.Point;
+                    CameraSetup.SetupCamera(SpriteManager.Camera, graphics);
 			GlobalContent.Initialize();
 			FlatRedBall.Screens.ScreenManager.Start(typeof(tankgame.Screens.GameScreen));
+                    base.Initialize();
+                }
 
-            base.Initialize();
+            }
+            catch (ArgumentNullException e)
+            {
+                Console.WriteLine("ArgumentNullException: {0}", e);
+            }
+            catch (SocketException e)
+            {
+                Console.WriteLine("SocketException: {0}", e);
+            }
         }
 
 
@@ -69,6 +133,28 @@ namespace tankgame
             FlatRedBall.Screens.ScreenManager.Activity();
 
             base.Update(gameTime);
+            BinaryFormatter formatter = new BinaryFormatter();
+            if (Player == "player1")
+            {
+                formatter.Serialize(stream, Position1);
+                formatter.Serialize(stream, Rotation1);
+                formatter.Serialize(stream, Shoot1);
+                Shoot1 = false;
+                Position2 = (Vector3)formatter.Deserialize(stream);
+                Rotation2 = (float)formatter.Deserialize(stream);
+                Shoot2 = (bool)formatter.Deserialize(stream);
+                
+            }
+            else if (Player == "player2")
+            {
+                Position1 = (Vector3)formatter.Deserialize(stream);
+                Rotation1 = (float)formatter.Deserialize(stream);
+                Shoot1 = (bool)formatter.Deserialize(stream);
+                formatter.Serialize(stream, Position2);
+                formatter.Serialize(stream, Rotation2);
+                formatter.Serialize(stream, Shoot2);
+                Shoot2 = false;
+            }
         }
 
         protected override void Draw(GameTime gameTime)

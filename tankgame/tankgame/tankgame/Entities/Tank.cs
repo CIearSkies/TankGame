@@ -15,9 +15,11 @@ namespace tankgame.Entities
     {
         Boolean shoot = true;
         System.Timers.Timer timer;
+        Game1 game;
         Xbox360GamePad mGamePad;
         private void CustomInitialize()
         {
+            game = (Game1)FlatRedBallServices.Game;
             mGamePad = InputManager.Xbox360GamePads[0];
             KeyboardButtonMap buttonMap = new KeyboardButtonMap();
 
@@ -57,6 +59,17 @@ namespace tankgame.Entities
             MovementActivity();
             TurningActivity();
             ShootingActivity();
+            if (game.Player == "player1")
+            {
+                GivePosition();
+                GiveRotation();
+            }
+            else if (game.Player == "player2")
+            {
+                UpdatePosition();
+                UpdateRotation();
+                UpdateBullet();
+            }
         }
 
         public void makeTimer()
@@ -79,7 +92,7 @@ namespace tankgame.Entities
                 firstBullet.Position += this.RotationMatrix.Right * 6;
                 firstBullet.RotationZ = this.RotationZ;
                 firstBullet.Velocity = this.RotationMatrix.Up * firstBullet.MovementSpeed;
-                
+                GiveBullet();
                 shoot = false;
             }
 
@@ -107,6 +120,49 @@ namespace tankgame.Entities
         void TurningActivity()
         {
             this.RotationZVelocity = -mGamePad.LeftStick.Position.X * 0.7f;
+        }
+
+        void GivePosition()
+        {
+
+            game.Position1 = this.Position;
+        }
+
+        void GiveRotation()
+        {
+            game.Rotation1 = this.RotationZ;
+        }
+
+        void UpdatePosition()
+        {
+            this.Position = game.Position1;
+        }
+
+        void UpdateRotation()
+        {
+            this.RotationZ = game.Rotation1;
+        }
+
+        void GiveBullet()
+        {
+            game.Shoot1 = this.shoot;
+        }
+        
+        void UpdateBullet()
+        {
+            this.shoot = game.Shoot1;
+            if (this.shoot)
+            {
+                Bullet firstBullet = BulletFactory.CreateNew();
+                firstBullet.Position = this.Position;
+                firstBullet.Position += this.RotationMatrix.Up * 12;
+                // This is the bullet on the right side when the ship is facing up.
+                // Adding along the Right vector will move it to the right relative to the ship
+                firstBullet.Position += this.RotationMatrix.Right * 6;
+                firstBullet.RotationZ = this.RotationZ;
+                firstBullet.Velocity = this.RotationMatrix.Up * firstBullet.MovementSpeed;
+                shoot = false;
+            }
         }
     }
 }
