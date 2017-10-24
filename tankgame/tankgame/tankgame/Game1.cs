@@ -15,6 +15,8 @@ using System.Net.Sockets;
 using Newtonsoft.Json.Linq;
 using System.Text;
 using System.Runtime.Serialization.Formatters.Binary;
+using Newtonsoft.Json;
+using System.Threading;
 
 namespace tankgame
 {
@@ -30,7 +32,7 @@ namespace tankgame
         public Vector3 Position2 { get; set; }
         public float Rotation2 { get; set; }
         public bool Shoot2 { get; set; }
-        public Game1() : base ()
+        public Game1() : base()
         {
             graphics = new GraphicsDeviceManager(this);
 
@@ -109,9 +111,11 @@ namespace tankgame
                     FlatRedBallServices.InitializeFlatRedBall(this, graphics);
                     FlatRedBallServices.GraphicsOptions.TextureFilter = TextureFilter.Point;
                     CameraSetup.SetupCamera(SpriteManager.Camera, graphics);
-			GlobalContent.Initialize();
-			FlatRedBall.Screens.ScreenManager.Start(typeof(tankgame.Screens.GameScreen));
+                    GlobalContent.Initialize();
+                    FlatRedBall.Screens.ScreenManager.Start(typeof(tankgame.Screens.GameScreen));
                     base.Initialize();
+                    Thread update = new Thread(updater);
+                    update.Start();
                 }
 
             }
@@ -133,32 +137,7 @@ namespace tankgame
             FlatRedBall.Screens.ScreenManager.Activity();
 
             base.Update(gameTime);
-            BinaryFormatter formatter = new BinaryFormatter();
-            if (Player == "player1")
-            {
-                formatter.Serialize(stream, Position1);
-                Position2 = (Vector3)formatter.Deserialize(stream);
-                formatter.Serialize(stream, Rotation1);
-                Rotation2 = (float)formatter.Deserialize(stream);
-                formatter.Serialize(stream, Shoot1);
-                Shoot2 = (bool)formatter.Deserialize(stream);
 
-                Shoot1 = false;
-                
-            }
-            else if (Player == "player2")
-            {
-                Position1 = (Vector3)formatter.Deserialize(stream);
-                formatter.Serialize(stream, Position2);
-
-                Rotation1 = (float)formatter.Deserialize(stream);
-                formatter.Serialize(stream, Rotation2);
-
-                Shoot1 = (bool)formatter.Deserialize(stream);
-                formatter.Serialize(stream, Shoot2);
-
-                Shoot2 = false;
-            }
         }
 
         protected override void Draw(GameTime gameTime)
@@ -166,6 +145,156 @@ namespace tankgame
             FlatRedBallServices.Draw();
 
             base.Draw(gameTime);
+
+
+        }
+
+        public JObject ReadObject(NetworkStream stream)
+        {
+            try
+            {
+                byte[] preBuffer = new Byte[4];
+                stream.Read(preBuffer, 0, 4);
+                int lenght = BitConverter.ToInt32(preBuffer, 0);
+                byte[] buffer = new Byte[lenght];
+                int totalReceived = 0;
+                while (totalReceived < lenght)
+                {
+                    int receivedCount = stream.Read(buffer, totalReceived, lenght - totalReceived);
+                    totalReceived += receivedCount;
+                }
+                Console.WriteLine(Encoding.UTF8.GetString(buffer));
+                JObject Json = JObject.Parse(Encoding.UTF8.GetString(buffer));
+                Console.WriteLine(Json);
+                return Json;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+                return null;
+            }
+        }
+
+        public void SendObject(string message, NetworkStream stream)
+        {
+            try
+            {
+                byte[] prefix = BitConverter.GetBytes(message.Length);
+                byte[] request = Encoding.Default.GetBytes(message);
+
+                byte[] buffer = new Byte[prefix.Length + message.Length];
+                prefix.CopyTo(buffer, 0);
+                request.CopyTo(buffer, prefix.Length);
+
+                stream.Write(buffer, 0, buffer.Length);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+        }
+
+        public void updater()
+        {
+            while (true)
+            {
+                if (Player == "player1")
+                {
+                    dynamic toJson = new
+                    {
+                        id = "player1/position",
+                        data = new
+                        {
+                            position = Position1
+                        }
+                    };
+                    SendObject(JsonConvert.SerializeObject(toJson), stream);
+                    JObject jsondata = ReadObject(stream);
+                    if (jsondata.GetValue("id").ToString() == "player2/position")
+                    {
+                        Position2 = jsondata.SelectToken("data").SelectToken("position2").ToObject<Vector3>();
+                    }
+                    toJson = new
+                    {
+                        id = "player1/rotation",
+                        data = new
+                        {
+                            rotation = Rotation1
+                        }
+                    };
+                    SendObject(JsonConvert.SerializeObject(toJson), stream);
+                    jsondata = ReadObject(stream);
+                    if (jsondata.GetValue("id").ToString() == "player2/rotation")
+                    {
+                        Rotation2 = jsondata.SelectToken("data").SelectToken("rotation2").ToObject<float>();
+                    }
+                    toJson = new
+                    {
+                        id = "player1/shoot",
+                        data = new
+                        {
+                            shoot = Shoot1
+                        }
+                    };
+
+                    SendObject(JsonConvert.SerializeObject(toJson), stream);
+                    jsondata = ReadObject(stream);
+                    if (jsondata.GetValue("id").ToString() == "player2/shoot")
+                    {
+                        Shoot2 = jsondata.SelectToken("data").SelectToken("shoot2").ToObject<bool>();
+                    }
+                    Shoot1 = false;
+
+                }
+                else if (Player == "player2")
+                {
+                    dynamic toJson = new
+                    {
+                        id = "player2/position",
+                        data = new
+                        {
+                            position2 = Position2
+                        }
+                    };
+                    SendObject(JsonConvert.SerializeObject(toJson), stream);
+                    JObject jsondata = ReadObject(stream);
+                    if (jsondata.GetValue("id").ToString() == "player1/position")
+                    {
+                        Position1 = jsondata.SelectToken("data").SelectToken("position").ToObject<Vector3>();
+                    }
+                    toJson = new
+                    {
+                        id = "player2/rotation",
+                        data = new
+                        {
+                            rotation2 = Rotation2
+                        }
+                    };
+                    SendObject(JsonConvert.SerializeObject(toJson), stream);
+                    jsondata = ReadObject(stream);
+                    if (jsondata.GetValue("id").ToString() == "player1/rotation")
+                    {
+                        Rotation1 = jsondata.SelectToken("data").SelectToken("rotation").ToObject<float>();
+                    }
+                    toJson = new
+                    {
+                        id = "player2/shoot",
+                        data = new
+                        {
+                            shoot2 = Shoot2
+                        }
+                    };
+                    SendObject(JsonConvert.SerializeObject(toJson), stream);
+                    jsondata = ReadObject(stream);
+                    if (jsondata.GetValue("id").ToString() == "player1/shoot")
+                    {
+                        Shoot1 = jsondata.SelectToken("data").SelectToken("shoot").ToObject<bool>();
+                    }
+
+                    Shoot2 = false;
+                }
+            }
+
         }
     }
 }

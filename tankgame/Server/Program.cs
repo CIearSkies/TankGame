@@ -163,36 +163,22 @@ namespace Server
 
         private void HandlePlayer1Comm(object client)
         {
-            BinaryFormatter formatter = new BinaryFormatter();
             while (true)
             {
-                object Position = formatter.Deserialize(player1stream);
-                //Console.WriteLine(Position.ToString());
-                formatter.Serialize(player2stream, Position);
-                object Rotation = formatter.Deserialize(player1stream);
-                //Console.WriteLine(Rotation.ToString());
-                formatter.Serialize(player2stream, Rotation);
-                object Shoot = formatter.Deserialize(player1stream);
-                //Console.WriteLine(Shoot.ToString());
-                formatter.Serialize(player2stream, Shoot);
+                jsondata = ReadObject(player1stream);
+                Console.WriteLine(jsondata);
+                SendObject(JsonConvert.SerializeObject(jsondata), player2stream);
             }
         }
 
 
         private void HandlePlayer2Comm(object client)
         {
-            BinaryFormatter formatter = new BinaryFormatter();
             while (true)
             {
-                object Position = formatter.Deserialize(player2stream);
-                //Console.WriteLine(Position.ToString());
-                formatter.Serialize(player1stream, Position);
-                object Rotation = formatter.Deserialize(player2stream);
-                //Console.WriteLine(Rotation.ToString());
-                formatter.Serialize(player1stream, Rotation);
-                object Shoot = formatter.Deserialize(player2stream);
-                //Console.WriteLine(Shoot.ToString());
-                formatter.Serialize(player1stream, Shoot);
+                jsondata = ReadObject(player2stream);
+                Console.WriteLine(jsondata);
+                SendObject(JsonConvert.SerializeObject(jsondata), player1stream);
             }
         }
         
@@ -200,7 +186,7 @@ namespace Server
 
 
 
-        public JObject ReadObject()
+        public JObject ReadObject(NetworkStream stream)
         {
             byte[] preBuffer = new Byte[4];
             stream.Read(preBuffer, 0, 4);
@@ -235,6 +221,24 @@ namespace Server
             {
                 JsonSerializer serializer = new JsonSerializer();
                 return serializer.Deserialize(file, typeof(string));
+            }
+        }
+        public void SendObject(string message, NetworkStream stream)
+        {
+            try
+            {
+                byte[] prefix = BitConverter.GetBytes(message.Length);
+                byte[] request = Encoding.Default.GetBytes(message);
+
+                byte[] buffer = new Byte[prefix.Length + message.Length];
+                prefix.CopyTo(buffer, 0);
+                request.CopyTo(buffer, prefix.Length);
+
+                stream.Write(buffer, 0, buffer.Length);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
             }
         }
     }

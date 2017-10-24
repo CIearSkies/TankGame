@@ -67,7 +67,7 @@ namespace tankgame.Screens
                 {
                     bullet.Destroy();
                     hitpointsTank1 = hitpointsTank1 - 50;
-                    if (hitpointsTank1 == 0)
+                     if (hitpointsTank1 == 0)
                     {
                         Player1Tank.Destroy();
                     }
