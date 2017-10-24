@@ -26,6 +26,7 @@ namespace tankgame.Entities
         static System.Collections.Generic.List<string> mRegisteredUnloads = new System.Collections.Generic.List<string>();
         static System.Collections.Generic.List<string> LoadedContentManagers = new System.Collections.Generic.List<string>();
         protected static Microsoft.Xna.Framework.Graphics.Texture2D PZiv;
+        protected static Microsoft.Xna.Framework.Graphics.Texture2D KV2;
         
         private FlatRedBall.Sprite Sprite2;
         private FlatRedBall.Math.Geometry.Polygon mHitbox2;
@@ -124,7 +125,7 @@ namespace tankgame.Entities
                 Sprite2.CopyAbsoluteToRelative();
                 Sprite2.AttachTo(this, false);
             }
-            Sprite2.Texture = PZiv;
+            Sprite2.Texture = KV2;
             Sprite2.FlipHorizontal = false;
             Sprite2.FlipVertical = true;
             Sprite2.TextureScale = 0.3f;
@@ -163,7 +164,7 @@ namespace tankgame.Entities
             if (callOnContainedElements)
             {
             }
-            Sprite2.Texture = PZiv;
+            Sprite2.Texture = KV2;
             Sprite2.FlipHorizontal = false;
             Sprite2.FlipVertical = true;
             Sprite2.TextureScale = 0.3f;
@@ -212,6 +213,11 @@ namespace tankgame.Entities
                     registerUnload = true;
                 }
                 PZiv = FlatRedBall.FlatRedBallServices.Load<Microsoft.Xna.Framework.Graphics.Texture2D>(@"content/entities/tank/pziv.png", ContentManagerName);
+                if (!FlatRedBall.FlatRedBallServices.IsLoaded<Microsoft.Xna.Framework.Graphics.Texture2D>(@"content/entities/tank/kv2.png", ContentManagerName))
+                {
+                    registerUnload = true;
+                }
+                KV2 = FlatRedBall.FlatRedBallServices.Load<Microsoft.Xna.Framework.Graphics.Texture2D>(@"content/entities/tank/kv2.png", ContentManagerName);
             }
             if (registerUnload && ContentManagerName != FlatRedBall.FlatRedBallServices.GlobalContentManager)
             {
@@ -239,6 +245,10 @@ namespace tankgame.Entities
                 {
                     PZiv= null;
                 }
+                if (KV2 != null)
+                {
+                    KV2= null;
+                }
             }
         }
         [System.Obsolete("Use GetFile instead")]
@@ -248,6 +258,8 @@ namespace tankgame.Entities
             {
                 case  "PZiv":
                     return PZiv;
+                case  "KV2":
+                    return KV2;
             }
             return null;
         }
@@ -257,6 +269,8 @@ namespace tankgame.Entities
             {
                 case  "PZiv":
                     return PZiv;
+                case  "KV2":
+                    return KV2;
             }
             return null;
         }
@@ -266,6 +280,8 @@ namespace tankgame.Entities
             {
                 case  "PZiv":
                     return PZiv;
+                case  "KV2":
+                    return KV2;
             }
             return null;
         }

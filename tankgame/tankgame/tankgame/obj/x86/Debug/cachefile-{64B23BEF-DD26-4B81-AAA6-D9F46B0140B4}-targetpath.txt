@@ -1,4 +1,5 @@
 Content\Entities\Bullet\shell.png
+Content\Entities\Tank\KV2.png
 Content\Entities\Tank\PZiv.PNG
 Content\Screens\GameScreen\forest_tiles.png
 Content\Screens\GameScreen\woods.tmx

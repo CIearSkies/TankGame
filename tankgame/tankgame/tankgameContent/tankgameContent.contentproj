@@ -49,6 +49,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>shell</Name>
     </None>
+    <None Include="Entities\Tank\KV2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>KV2</Name>
+    </None>
     <None Include="Entities\Tank\PZiv.PNG">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>PZiv</Name>

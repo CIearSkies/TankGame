@@ -32,3 +32,4 @@ C:\Users\tmbro\Documents\Avans\jaar 2\programmeren C#\tankgame\tankgame\tankgame
 C:\Users\tmbro\Documents\Avans\jaar 2\programmeren C#\tankgame\tankgame\tankgame\tankgame\bin\x86\Debug\Newtonsoft.Json.xml
 C:\Users\Trist\Documents\gitKraken\TankGame\TankGame\tankgame\tankgame\tankgame\bin\x86\Debug\Newtonsoft.Json.dll
 C:\Users\Trist\Documents\gitKraken\TankGame\TankGame\tankgame\tankgame\tankgame\bin\x86\Debug\Newtonsoft.Json.xml
+C:\Users\Trist\Documents\gitKraken\TankGame\TankGame\tankgame\tankgame\tankgame\bin\x86\Debug\Content\Entities\Tank\KV2.png

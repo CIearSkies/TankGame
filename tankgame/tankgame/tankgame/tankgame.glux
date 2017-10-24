@@ -120,6 +120,11 @@
               </CustomProperty>
               <CustomProperty>
                 <Type>float</Type>
+                <Member>Z</Member>
+                <ValueAsFloat>10</ValueAsFloat>
+              </CustomProperty>
+              <CustomProperty>
+                <Type>float</Type>
                 <Member>Drag</Member>
                 <ValueAsFloat>1</ValueAsFloat>
               </CustomProperty>
@@ -132,11 +137,6 @@
                 <Type>float</Type>
                 <Member>TurningSpeed</Member>
                 <ValueAsFloat>2</ValueAsFloat>
-              </CustomProperty>
-              <CustomProperty>
-                <Type>float</Type>
-                <Member>Z</Member>
-                <ValueAsFloat>10</ValueAsFloat>
               </CustomProperty>
               <SourceType>Entity</SourceType>
               <SourceClassType>Entities\Tank2</SourceClassType>
@@ -498,7 +498,7 @@
           <CustomProperty>
             <Type>Texture2D</Type>
             <Member>Texture</Member>
-            <ValueAsString>PZiv</ValueAsString>
+            <ValueAsString>KV2</ValueAsString>
           </CustomProperty>
           <CustomProperty>
             <Type>bool</Type>
@@ -553,6 +553,12 @@
       <ReferencedFiles>
         <ReferencedFileSave>
           <Name>Entities/Tank/PZiv.PNG</Name>
+          <IsSharedStatic>true</IsSharedStatic>
+          <RuntimeType>Microsoft.Xna.Framework.Graphics.Texture2D</RuntimeType>
+          <ProjectsToExcludeFrom />
+        </ReferencedFileSave>
+        <ReferencedFileSave>
+          <Name>Entities/Tank/KV2.png</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Graphics.Texture2D</RuntimeType>
           <ProjectsToExcludeFrom />
