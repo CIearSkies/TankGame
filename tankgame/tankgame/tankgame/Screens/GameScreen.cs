@@ -43,6 +43,7 @@ namespace tankgame.Screens
 		void CustomActivity(bool firstTimeCalled)
 		{
             wallCollision.CollideAgainstSolid(Player1Tank);
+            wallCollision.CollideAgainstSolid(Player2Tank);
             BulletCollision();
         }
 

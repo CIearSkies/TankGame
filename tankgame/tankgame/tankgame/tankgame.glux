@@ -111,12 +111,12 @@
               <CustomProperty>
                 <Type>float</Type>
                 <Member>X</Member>
-                <ValueAsFloat>0</ValueAsFloat>
+                <ValueAsFloat>1700</ValueAsFloat>
               </CustomProperty>
               <CustomProperty>
                 <Type>float</Type>
                 <Member>Y</Member>
-                <ValueAsFloat>0</ValueAsFloat>
+                <ValueAsFloat>-400</ValueAsFloat>
               </CustomProperty>
               <CustomProperty>
                 <Type>float</Type>
@@ -533,7 +533,7 @@
           <CustomProperty>
             <Type>bool</Type>
             <Member>Visible</Member>
-            <ValueAsBool>false</ValueAsBool>
+            <ValueAsBool>true</ValueAsBool>
           </CustomProperty>
           <CustomProperty>
             <Member>Points</Member>

@@ -180,19 +180,19 @@ namespace tankgame.Screens
             Tank2List.Add(Player2Tank);
             if (Player2Tank.Parent == null)
             {
-                Player2Tank.X = 0f;
+                Player2Tank.X = 1700f;
             }
             else
             {
-                Player2Tank.RelativeX = 0f;
+                Player2Tank.RelativeX = 1700f;
             }
             if (Player2Tank.Parent == null)
             {
-                Player2Tank.Y = 0f;
+                Player2Tank.Y = -400f;
             }
             else
             {
-                Player2Tank.RelativeY = 0f;
+                Player2Tank.RelativeY = -400f;
             }
             Player2Tank.Drag = 1f;
             Player2Tank.MovementSpeed = 350f;
@@ -267,19 +267,19 @@ namespace tankgame.Screens
             Player1Tank.TurningSpeed = 2f;
             if (Player2Tank.Parent == null)
             {
-                Player2Tank.X = 0f;
+                Player2Tank.X = 1700f;
             }
             else
             {
-                Player2Tank.RelativeX = 0f;
+                Player2Tank.RelativeX = 1700f;
             }
             if (Player2Tank.Parent == null)
             {
-                Player2Tank.Y = 0f;
+                Player2Tank.Y = -400f;
             }
             else
             {
-                Player2Tank.RelativeY = 0f;
+                Player2Tank.RelativeY = -400f;
             }
             Player2Tank.Drag = 1f;
             Player2Tank.MovementSpeed = 350f;
