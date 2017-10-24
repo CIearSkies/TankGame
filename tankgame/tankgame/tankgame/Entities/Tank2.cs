@@ -83,12 +83,11 @@ namespace tankgame.Entities
         {
             if (mGamePad.ButtonPushed(Xbox360GamePad.Button.A) && shoot)
             {
-                // We'll create 2 bullets because it looks much cooler than 1
+               
                 Bullet firstBullet = BulletFactory.CreateNew();
                 firstBullet.Position = this.Position;
                 firstBullet.Position += this.RotationMatrix.Up * 12;
-                // This is the bullet on the right side when the ship is facing up.
-                // Adding along the Right vector will move it to the right relative to the ship
+                
                 firstBullet.Position += this.RotationMatrix.Right * 6;
                 firstBullet.RotationZ = this.RotationZ;
                 firstBullet.Velocity = this.RotationMatrix.Up * firstBullet.MovementSpeed;

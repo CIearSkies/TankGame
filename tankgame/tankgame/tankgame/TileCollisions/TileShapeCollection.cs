@@ -192,19 +192,14 @@ namespace FlatRedBall.TileCollisions
 
         public void AddCollisionAtWorld(float x, float y)
         {
-            // Make sure there isn't already collision here
+            
             if (GetTileAt(x, y) == null)
             {
                 // x and y
                 // represent
                 // the center
                 // of the tile
-                // where the user
-                // may want to add 
-                // collision.  Let's
-                // subtract half width/
-                // height so we can use the
-                // bottom/left
+                
                 float roundedX = MathFunctions.RoundFloat(x - GridSize / 2.0f, GridSize, mLeftSeedX);
                 float roundedY = MathFunctions.RoundFloat(y - GridSize / 2.0f, GridSize, mBottomSeedY);
 
@@ -575,7 +570,7 @@ namespace FlatRedBall.TileCollisions
             }
             else
             {
-                // y moves down so we subtract
+                // y moves down so subtract
                 y = (keyIndex - .5f) * dimension;
             }
 

@@ -74,21 +74,13 @@ namespace tankgame.Factories
             }
         }
         
-        /// <summary>
-        /// Makes the argument objectToMakeUnused marked as unused.  This method is generated to be used
-        /// by generated code.  Use Destroy instead when writing custom code so that your code will behave
-        /// the same whether your Entity is pooled or not.
-        /// </summary>
+        
         public static void MakeUnused (Bullet objectToMakeUnused)
         {
             MakeUnused(objectToMakeUnused, true);
         }
         
-        /// <summary>
-        /// Makes the argument objectToMakeUnused marked as unused.  This method is generated to be used
-        /// by generated code.  Use Destroy instead when writing custom code so that your code will behave
-        /// the same whether your Entity is pooled or not.
-        /// </summary>
+        
         public static void MakeUnused (Bullet objectToMakeUnused, bool callDestroy)
         {
             if (callDestroy)
