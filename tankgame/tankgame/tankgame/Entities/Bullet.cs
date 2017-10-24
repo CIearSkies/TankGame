@@ -18,6 +18,7 @@ namespace tankgame.Entities
         /// This method is called when the Entity is added to managers. Entities which are instantiated but not
         /// added to managers will not have this method called.
         /// </summary>
+        /// 
 		private void CustomInitialize()
 		{
 

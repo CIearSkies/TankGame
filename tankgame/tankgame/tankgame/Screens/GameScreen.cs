@@ -58,6 +58,15 @@ namespace tankgame.Screens
                     bullet.Destroy();
                     break;
                 }
+
+                if (bullet.CircleInstance.CollideAgainst(Player1Tank.Hitbox))
+                {
+                    Player1Tank.Destroy();
+                }
+                if (bullet.CircleInstance.CollideAgainst(Player2Tank.Hitbox2))
+                {
+                    Player2Tank.Destroy();
+                }
             }
         }
 

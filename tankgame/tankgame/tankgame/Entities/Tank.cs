@@ -85,6 +85,7 @@ namespace tankgame.Entities
             {
                 // We'll create 2 bullets because it looks much cooler than 1
                 Bullet firstBullet = BulletFactory.CreateNew();
+
                 firstBullet.Position = this.Position;
                 firstBullet.Position += this.RotationMatrix.Up * 12;
                 // This is the bullet on the right side when the ship is facing up.

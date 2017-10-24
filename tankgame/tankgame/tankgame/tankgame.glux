@@ -238,7 +238,7 @@
           <CustomProperty>
             <Type>float</Type>
             <Member>Y</Member>
-            <ValueAsFloat>5</ValueAsFloat>
+            <ValueAsFloat>30</ValueAsFloat>
           </CustomProperty>
           <CustomProperty>
             <Type>float</Type>

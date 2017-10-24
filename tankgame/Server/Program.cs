@@ -167,13 +167,13 @@ namespace Server
             while (true)
             {
                 object Position = formatter.Deserialize(player1stream);
-                Console.WriteLine(Position.ToString());
+                //Console.WriteLine(Position.ToString());
                 formatter.Serialize(player2stream, Position);
                 object Rotation = formatter.Deserialize(player1stream);
-                Console.WriteLine(Rotation.ToString());
+                //Console.WriteLine(Rotation.ToString());
                 formatter.Serialize(player2stream, Rotation);
                 object Shoot = formatter.Deserialize(player1stream);
-                Console.WriteLine(Shoot.ToString());
+                //Console.WriteLine(Shoot.ToString());
                 formatter.Serialize(player2stream, Shoot);
             }
         }
@@ -185,13 +185,13 @@ namespace Server
             while (true)
             {
                 object Position = formatter.Deserialize(player2stream);
-                Console.WriteLine(Position.ToString());
+                //Console.WriteLine(Position.ToString());
                 formatter.Serialize(player1stream, Position);
                 object Rotation = formatter.Deserialize(player2stream);
-                Console.WriteLine(Rotation.ToString());
+                //Console.WriteLine(Rotation.ToString());
                 formatter.Serialize(player1stream, Rotation);
                 object Shoot = formatter.Deserialize(player2stream);
-                Console.WriteLine(Shoot.ToString());
+                //Console.WriteLine(Shoot.ToString());
                 formatter.Serialize(player1stream, Shoot);
             }
         }
@@ -212,7 +212,7 @@ namespace Server
                 int receivedCount = stream.Read(buffer, totalReceived, lenght - totalReceived);
                 totalReceived += receivedCount;
             }
-            Console.WriteLine(Encoding.UTF8.GetString(buffer));
+            //Console.WriteLine(Encoding.UTF8.GetString(buffer));
             JObject Json = JObject.Parse(Encoding.UTF8.GetString(buffer));
             
            // Console.WriteLine(Json);

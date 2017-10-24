@@ -147,11 +147,11 @@ namespace tankgame.Entities
             }
             if (CircleInstance.Parent == null)
             {
-                CircleInstance.Y = 5f;
+                CircleInstance.Y = 30f;
             }
             else
             {
-                CircleInstance.RelativeY = 5f;
+                CircleInstance.RelativeY = 30f;
             }
             CircleInstance.Radius = 3f;
             CircleInstance.Visible = false;
@@ -193,11 +193,11 @@ namespace tankgame.Entities
             }
             if (CircleInstance.Parent == null)
             {
-                CircleInstance.Y = 5f;
+                CircleInstance.Y = 30f;
             }
             else
             {
-                CircleInstance.RelativeY = 5f;
+                CircleInstance.RelativeY = 30f;
             }
             CircleInstance.Radius = 3f;
             CircleInstance.Visible = false;

@@ -137,22 +137,26 @@ namespace tankgame
             if (Player == "player1")
             {
                 formatter.Serialize(stream, Position1);
-                formatter.Serialize(stream, Rotation1);
-                formatter.Serialize(stream, Shoot1);
-                Shoot1 = false;
                 Position2 = (Vector3)formatter.Deserialize(stream);
+                formatter.Serialize(stream, Rotation1);
                 Rotation2 = (float)formatter.Deserialize(stream);
+                formatter.Serialize(stream, Shoot1);
                 Shoot2 = (bool)formatter.Deserialize(stream);
+
+                Shoot1 = false;
                 
             }
             else if (Player == "player2")
             {
                 Position1 = (Vector3)formatter.Deserialize(stream);
-                Rotation1 = (float)formatter.Deserialize(stream);
-                Shoot1 = (bool)formatter.Deserialize(stream);
                 formatter.Serialize(stream, Position2);
+
+                Rotation1 = (float)formatter.Deserialize(stream);
                 formatter.Serialize(stream, Rotation2);
+
+                Shoot1 = (bool)formatter.Deserialize(stream);
                 formatter.Serialize(stream, Shoot2);
+
                 Shoot2 = false;
             }
         }
