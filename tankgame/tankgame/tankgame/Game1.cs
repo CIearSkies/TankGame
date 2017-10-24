@@ -70,7 +70,7 @@ namespace tankgame
             {
 
                 Int32 port = 13000;
-                TcpClient client = new TcpClient("127.0.0.1", port);
+                TcpClient client = new TcpClient("192.168.2.188", port);
 
                 stream = client.GetStream();
 
