@@ -53,7 +53,7 @@ namespace tankgame.Screens
                 Bullet bullet = BulletList[i];
                 if (wallCollision.CollideAgainstSolid(bullet.CircleInstance))
                 {
-                    FlatRedBall.Debugging.Debugger.Write("WTF");
+                    //FlatRedBall.Debugging.Debugger.Write("HIT");
                     bullet.Destroy();
                     break;
                 }

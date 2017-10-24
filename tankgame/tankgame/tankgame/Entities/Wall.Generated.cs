@@ -6,6 +6,7 @@ using tankgame.Screens;
 using FlatRedBall.Graphics;
 using FlatRedBall.Math;
 using tankgame.Entities;
+using tankgame.Factories;
 using FlatRedBall;
 using FlatRedBall.Screens;
 using System;
