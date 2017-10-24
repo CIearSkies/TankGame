@@ -126,6 +126,10 @@
     <Compile Include="Entities\Tank.Generated.cs">
       <DependentUpon>Tank.cs</DependentUpon>
     </Compile>
+    <Compile Include="Entities\Tank2.cs" />
+    <Compile Include="Entities\Tank2.Generated.cs">
+      <DependentUpon>Tank2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Entities\Wall.cs" />
     <Compile Include="Entities\Wall.Generated.cs">
       <DependentUpon>Wall.cs</DependentUpon>

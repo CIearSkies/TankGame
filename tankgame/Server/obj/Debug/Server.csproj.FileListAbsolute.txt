@@ -7,3 +7,12 @@ C:\Users\tmbro\Documents\Avans\jaar 2\programmeren C#\tankgame\tankgame\Server\b
 C:\Users\tmbro\Documents\Avans\jaar 2\programmeren C#\tankgame\tankgame\Server\obj\Debug\Server.exe
 C:\Users\tmbro\Documents\Avans\jaar 2\programmeren C#\tankgame\tankgame\Server\obj\Debug\Server.pdb
 C:\Users\tmbro\Documents\Avans\jaar 2\programmeren C#\tankgame\tankgame\Server\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Trist\Documents\gitKraken\TankGame\TankGame\tankgame\Server\bin\Debug\Server.exe.config
+C:\Users\Trist\Documents\gitKraken\TankGame\TankGame\tankgame\Server\bin\Debug\Server.exe
+C:\Users\Trist\Documents\gitKraken\TankGame\TankGame\tankgame\Server\bin\Debug\Server.pdb
+C:\Users\Trist\Documents\gitKraken\TankGame\TankGame\tankgame\Server\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Trist\Documents\gitKraken\TankGame\TankGame\tankgame\Server\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Trist\Documents\gitKraken\TankGame\TankGame\tankgame\Server\obj\Debug\Server.csprojResolveAssemblyReference.cache
+C:\Users\Trist\Documents\gitKraken\TankGame\TankGame\tankgame\Server\obj\Debug\Server.csproj.CoreCompileInputs.cache
+C:\Users\Trist\Documents\gitKraken\TankGame\TankGame\tankgame\Server\obj\Debug\Server.exe
+C:\Users\Trist\Documents\gitKraken\TankGame\TankGame\tankgame\Server\obj\Debug\Server.pdb

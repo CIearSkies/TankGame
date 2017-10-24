@@ -24,6 +24,8 @@ namespace tankgame.Screens
         private tankgame.Entities.Tank Player1Tank;
         private FlatRedBall.Math.PositionedObjectList<tankgame.Entities.Wall> WallList;
         private FlatRedBall.Math.PositionedObjectList<tankgame.Entities.Bullet> BulletList;
+        private FlatRedBall.Math.PositionedObjectList<tankgame.Entities.Tank2> Tank2List;
+        private tankgame.Entities.Tank2 Player2Tank;
         public GameScreen ()
         	: base ("GameScreen")
         {
@@ -39,6 +41,10 @@ namespace tankgame.Screens
             WallList.Name = "WallList";
             BulletList = new FlatRedBall.Math.PositionedObjectList<tankgame.Entities.Bullet>();
             BulletList.Name = "BulletList";
+            Tank2List = new FlatRedBall.Math.PositionedObjectList<tankgame.Entities.Tank2>();
+            Tank2List.Name = "Tank2List";
+            Player2Tank = new tankgame.Entities.Tank2(ContentManagerName, false);
+            Player2Tank.Name = "Player2Tank";
             
             
             PostInitialize();
@@ -53,6 +59,7 @@ namespace tankgame.Screens
             woods.AddToManagers(mLayer);
             BulletFactory.Initialize(BulletList, ContentManagerName);
             Player1Tank.AddToManagers(mLayer);
+            Player2Tank.AddToManagers(mLayer);
             base.AddToManagers();
             AddToManagersBottomUp();
             CustomInitialize();
@@ -86,6 +93,14 @@ namespace tankgame.Screens
                         BulletList[i].Activity();
                     }
                 }
+                for (int i = Tank2List.Count - 1; i > -1; i--)
+                {
+                    if (i < Tank2List.Count)
+                    {
+                        // We do the extra if-check because activity could destroy any number of entities
+                        Tank2List[i].Activity();
+                    }
+                }
             }
             else
             {
@@ -107,6 +122,7 @@ namespace tankgame.Screens
             TankList.MakeOneWay();
             WallList.MakeOneWay();
             BulletList.MakeOneWay();
+            Tank2List.MakeOneWay();
             for (int i = TankList.Count - 1; i > -1; i--)
             {
                 TankList[i].Destroy();
@@ -119,9 +135,14 @@ namespace tankgame.Screens
             {
                 BulletList[i].Destroy();
             }
+            for (int i = Tank2List.Count - 1; i > -1; i--)
+            {
+                Tank2List[i].Destroy();
+            }
             TankList.MakeTwoWay();
             WallList.MakeTwoWay();
             BulletList.MakeTwoWay();
+            Tank2List.MakeTwoWay();
             CustomDestroy();
         }
         public virtual void PostInitialize ()
@@ -156,6 +177,34 @@ namespace tankgame.Screens
             Player1Tank.Drag = 1f;
             Player1Tank.MovementSpeed = 350f;
             Player1Tank.TurningSpeed = 2f;
+            Tank2List.Add(Player2Tank);
+            if (Player2Tank.Parent == null)
+            {
+                Player2Tank.X = 0f;
+            }
+            else
+            {
+                Player2Tank.RelativeX = 0f;
+            }
+            if (Player2Tank.Parent == null)
+            {
+                Player2Tank.Y = 0f;
+            }
+            else
+            {
+                Player2Tank.RelativeY = 0f;
+            }
+            Player2Tank.Drag = 1f;
+            Player2Tank.MovementSpeed = 350f;
+            Player2Tank.TurningSpeed = 2f;
+            if (Player2Tank.Parent == null)
+            {
+                Player2Tank.Z = 10f;
+            }
+            else
+            {
+                Player2Tank.RelativeZ = 10f;
+            }
             FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue = oldShapeManagerSuppressAdd;
         }
         public virtual void AddToManagersBottomUp ()
@@ -177,12 +226,17 @@ namespace tankgame.Screens
             {
                 BulletList[i].Destroy();
             }
+            for (int i = Tank2List.Count - 1; i > -1; i--)
+            {
+                Tank2List[i].Destroy();
+            }
         }
         public virtual void AssignCustomVariables (bool callOnContainedElements)
         {
             if (callOnContainedElements)
             {
                 Player1Tank.AssignCustomVariables(true);
+                Player2Tank.AssignCustomVariables(true);
             }
             if (Player1Tank.Parent == null)
             {
@@ -211,6 +265,33 @@ namespace tankgame.Screens
             Player1Tank.Drag = 1f;
             Player1Tank.MovementSpeed = 350f;
             Player1Tank.TurningSpeed = 2f;
+            if (Player2Tank.Parent == null)
+            {
+                Player2Tank.X = 0f;
+            }
+            else
+            {
+                Player2Tank.RelativeX = 0f;
+            }
+            if (Player2Tank.Parent == null)
+            {
+                Player2Tank.Y = 0f;
+            }
+            else
+            {
+                Player2Tank.RelativeY = 0f;
+            }
+            Player2Tank.Drag = 1f;
+            Player2Tank.MovementSpeed = 350f;
+            Player2Tank.TurningSpeed = 2f;
+            if (Player2Tank.Parent == null)
+            {
+                Player2Tank.Z = 10f;
+            }
+            else
+            {
+                Player2Tank.RelativeZ = 10f;
+            }
         }
         public virtual void ConvertToManuallyUpdated ()
         {
@@ -225,6 +306,10 @@ namespace tankgame.Screens
             for (int i = 0; i < BulletList.Count; i++)
             {
                 BulletList[i].ConvertToManuallyUpdated();
+            }
+            for (int i = 0; i < Tank2List.Count; i++)
+            {
+                Tank2List[i].ConvertToManuallyUpdated();
             }
         }
         public static void LoadStaticContent (string contentManagerName)
