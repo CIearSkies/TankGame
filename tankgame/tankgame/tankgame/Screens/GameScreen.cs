@@ -20,9 +20,14 @@ namespace tankgame.Screens
 {
 	public partial class GameScreen
 	{
+        private int hitpointsTank1;
+        private int hitpointsTank2;
         FlatRedBall.TileCollisions.TileShapeCollection wallCollision;
         void CustomInitialize()
 		{
+            hitpointsTank1 = 200;
+            hitpointsTank2 = 200;
+
             Camera.Main.X = Camera.Main.OrthogonalWidth / 2.0f;
             Camera.Main.Y = -1 * Camera.Main.OrthogonalHeight / 2.0f;
             wallCollision = new FlatRedBall.TileCollisions.TileShapeCollection();
@@ -35,13 +40,12 @@ namespace tankgame.Screens
                 "Water31", "Water32", "Water33", "Water34", "Water35", "Water36", "Water37", "Water38", "Water39", "Water40",
                 "Water41", "Water42",
                 "Stone1", "Stone2"});
-
-
             
         }
 
 		void CustomActivity(bool firstTimeCalled)
 		{
+            
             wallCollision.CollideAgainstSolid(Player1Tank);
             wallCollision.CollideAgainstSolid(Player2Tank);
             BulletCollision();
@@ -61,11 +65,21 @@ namespace tankgame.Screens
 
                 if (bullet.CircleInstance.CollideAgainst(Player1Tank.Hitbox))
                 {
-                    Player1Tank.Destroy();
+                    bullet.Destroy();
+                    hitpointsTank1 = hitpointsTank1 - 50;
+                    if (hitpointsTank1 == 0)
+                    {
+                        Player1Tank.Destroy();
+                    }
                 }
                 if (bullet.CircleInstance.CollideAgainst(Player2Tank.Hitbox2))
                 {
-                    Player2Tank.Destroy();
+                    bullet.Destroy();
+                    hitpointsTank2 = hitpointsTank2 - 50;
+                    if (hitpointsTank2 == 0)
+                    {
+                        Player2Tank.Destroy();
+                    }
                 }
             }
         }
